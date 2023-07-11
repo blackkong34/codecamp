@@ -1,31 +1,30 @@
 import styled from '@emotion/styled'
 
-
+export const Container = styled.div`
+display: flex;
+justify-content: center;
+`
 export const Wrapper = styled.section`
-  background: red;
-  width: 1200px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 80px 102px 100px 102px;
+  width: 1200px;
   background: #fff;
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
 `
 
 export const Title = styled.h1`
-margin: 0;
-padding-bottom: 60px;
+  padding-bottom: 60px;
   font-size : 36px;
   font-weight: 700;
   text-align: center;
 `
 
-export const WriteWrapper = styled.div`
+export const WriteWrapper = styled.form`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
+  flex-direction: column;
 `
 
 export const UserWrapper = styled.div`
@@ -56,25 +55,21 @@ export const Label = styled.span`
 `
 
 export const User = styled.input`
-  box-sizing: border-box;
   padding: 14px 16px;
   border : 1px solid #BDBDBD;
 `
 
 export const Password = styled.input`
-  box-sizing: border-box;
   padding: 14px 16px;
   border : 1px solid #BDBDBD;
 `
 
 export const Subject = styled.input`
-  box-sizing: border-box;
   padding: 14px 16px;
   border : 1px solid #BDBDBD;
 `
 
 export const Content = styled.input`
-  box-sizing: border-box;
   height: 480px;
   padding: 14px 16px;
   border : 1px solid #BDBDBD;
@@ -82,7 +77,6 @@ export const Content = styled.input`
 
 export const ZipcodeWrapper = styled.div`
   display: flex;
-  /* margin-bottom: 16px; */
   flex-direction: row;
   align-items: flex-start;
 `
@@ -103,14 +97,12 @@ export const ZipcodeBtn = styled.button`
 `
 
 export const Address = styled.input`
-  box-sizing: border-box;
   padding: 14px 16px;
   margin-top: 16px;
   border : 1px solid #BDBDBD;
 `
 
 export const Youtube = styled.input`
-  box-sizing: border-box;
   padding: 14px 16px;
   border : 1px solid #BDBDBD;
 `
@@ -161,10 +153,14 @@ export const BtnWrapper = styled.div`
 `
   
 export const SubmitBtn = styled.button`
-padding: 14px 60px;
-background: #FFD600;
-font-weight: 500;
-border-style: none;
-cursor: pointer;
+  padding: 14px 60px;
+  background: #FFD600;
+  font-weight: 500;
+  border-style: none;
+  cursor: pointer;
+`
 
+export const Error = styled.span`
+  font-size: 14px;
+  color: red;
 `
