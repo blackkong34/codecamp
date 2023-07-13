@@ -1,17 +1,54 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, UserWrapper, User, Password, Subject, Content, ZipcodeWrapper, Zipcode, ZipcodeBtn, Address, Youtube, UploadWrapper, Plus, PicUpload, SettingWrapper, RadioLabel, Label, 
 RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
+import { useMutation, gql} from '@apollo/client';
 
+const CREATE_BOARD = gql`
+  mutation createBoard($CreateBoardInput : CreateBoardInput!){
+    createBoard(createBoardInput : $CreateBoardInput) {
+      _id
+      writer
+      title
+      contents
+    }
+  }
+`
 
 export default function Boards() {
   const {register,watch, formState : {errors}, handleSubmit} = useForm();
   // console.log(watch('content'));
 
-const onSubmit = (data) => {
-  console.log('data', data)
-}
+  const [createBoard] = useMutation(CREATE_BOARD);
+
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [subject, setSubject] = useState("");
+  const [content, setContent] = useState("");
   
+  const onSubmit = async (data) => {
+    console.log('data', data)
+    setUser(data.user);
+    setPassword(data.password);
+    setSubject(data.subject);
+    setContent(data.content);
+
+    const result = await createBoard({
+      variables : {
+        CreateBoardInput : {
+          writer : user,
+          password : password,
+          title : subject,
+          contents : content,
+        }
+      }
+    });
+    console.log(result);
+  }
+
+
+// const password = useRef();
+// password.current = watch('password');
 
   return(
     <Container>
@@ -45,6 +82,18 @@ const onSubmit = (data) => {
                 })}/>
               {errors.password && (<Error>{errors.password.message}</Error>)}
             </InputWrapper2>
+            {/* <InputWrapper2>
+              <Label>비밀번호 확인</Label>
+              <Password type="password" placeholder='비밀번호를 한 번 더 입력하세요.' 
+              {...register('passwordConfirm', {
+                required : "비밀번호를 확인해주세요.",
+                validate : (value) => {
+                    value === password.current
+                }
+                })}/>
+                {errors.passwordConfirm && <Error>{errors.passwordConfirm.message}</Error>}
+              {errors.password && (<Error>{errors.password.message}</Error>)}
+            </InputWrapper2> */}
           </UserWrapper>
           <InputWrapper> 
             <Label>제목</Label>
