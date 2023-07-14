@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
 import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, UserWrapper, User, Password, Subject, Content, ZipcodeWrapper, Zipcode, ZipcodeBtn, Address, Youtube, UploadWrapper, Plus, PicUpload, SettingWrapper, RadioLabel, Label, 
 RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
+import { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { useMutation, gql} from '@apollo/client';
 
 const CREATE_BOARD = gql`
@@ -27,26 +27,28 @@ export default function Boards() {
   const [content, setContent] = useState("");
   
   const onSubmit = async (data) => {
-    console.log('data', data)
+
     setUser(data.user);
     setPassword(data.password);
     setSubject(data.subject);
     setContent(data.content);
 
-    const result = await createBoard({
-      variables : {
-        CreateBoardInput : {
-          writer : user,
-          password : password,
-          title : subject,
-          contents : content,
+    if(user && password && subject && content) {
+      const result = await createBoard({
+        variables : {
+          CreateBoardInput : {
+            writer : user,
+            password,
+            title : subject,
+            contents : content,
+          }
         }
-      }
-    });
+      });
+    }
     console.log(result);
   }
 
-
+//비밀번호 확인하기
 // const password = useRef();
 // password.current = watch('password');
 

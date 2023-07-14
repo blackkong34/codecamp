@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, UserWrapper, User, Password, Subject, Content, ZipcodeWrapper, Zipcode, ZipcodeBtn, Address, Youtube, UploadWrapper, Plus, PicUpload, SettingWrapper, RadioLabel, Label, 
-RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
+RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../../styles/boardNew'
 
 export default function Boards() {
   const {resiser, watch} = useForm();
