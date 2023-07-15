@@ -1,39 +1,16 @@
-import { Container, BoardDetailWrapper, CardWrapper, Header, AvatarWrapper,  Avatar, AvatarInfo, Writer, CreatedAt, HeaderIcon, Body, BoardTitle, ImageBox, Content, VideoBox,Video, PlayIcon, Bottom, IconBox, Icon, Like, Dislike, BtnWrapper, Btn, ReviewsWrapper, ReviewHeader, ReviewTitle} from '../../../styles/boardDetail';
-// import Profile from "/public/assets/icons/link.svg"
-import { useQuery, gql} from '@apollo/client';
-import { useRouter } from 'next/router';
+import { Container, BoardDetailWrapper, CardWrapper, Header, AvatarWrapper, Avatar, AvatarInfo, Writer,CreatedAt, HeaderIcon, Body, BoardTitle, ImageBox, Content, VideoBox, Video, PlayIcon, Bottom, IconBox, Icon, Like, Dislike, BtnWrapper, Btn, ReviewsWrapper, ReviewHeader, ReviewTitle } from './BoardDetail.styles'
 
-const FETCH_BOARD = gql`
-  query fetchBoard($boardId : ID!){
-    fetchBoard(boardId : $boardId)
-    {
-      _id
-      writer
-      title
-      contents
-      createdAt
-    }
-  }
-`;
-
-export default function BoardDetailPage() {
-
-  const router = useRouter();
-  const { data } = useQuery(FETCH_BOARD, {
-    variables : {boardId : router.query.boardId}
-  });
-
-  return (
+export default function BoardDetailUI(props) {
+  return(
     <Container>
-      {/* <Profile width={56} height = {56} /> */}
       <BoardDetailWrapper>
         <CardWrapper>
           <Header>
           <AvatarWrapper>
             <Avatar src = "/assets/icons/profile.png" alt = "프로필사진"/>
             <AvatarInfo>
-              <Writer>{data?.fetchBoard?.writer || "존재하지 않는 게시글입니다"}</Writer>
-              <CreatedAt>Date : {data?.fetchBoard?.createdAt.substr(0, 10)}</CreatedAt>
+              <Writer>{props.data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}</Writer>
+              <CreatedAt>Date : {props.data?.fetchBoard?.createdAt.substr(0, 10)}</CreatedAt>
             </AvatarInfo>
           </AvatarWrapper>
             <div>
@@ -42,9 +19,9 @@ export default function BoardDetailPage() {
             </div>
           </Header>
           <Body>
-            <BoardTitle>{data?.fetchBoard?.title}</BoardTitle>
+            <BoardTitle>{props.data?.fetchBoard?.title}</BoardTitle>
             <ImageBox></ImageBox>
-            <Content>{data?.fetchBoard?.contents}</Content>
+            <Content>{props.data?.fetchBoard?.contents}</Content>
             <VideoBox>
               <Video>
                 <PlayIcon src = "/assets/icons/play.png"></PlayIcon>
@@ -73,9 +50,7 @@ export default function BoardDetailPage() {
             <ReviewTitle>댓글</ReviewTitle>
           </ReviewHeader>
         </ReviewsWrapper>
-
       </BoardDetailWrapper>  
-
     </Container>
   )
 }

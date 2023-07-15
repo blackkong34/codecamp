@@ -1,52 +1,9 @@
 import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, UserWrapper, User, Password, Subject, Content, ZipcodeWrapper, Zipcode, ZipcodeBtn, Address, Youtube, UploadWrapper, Plus, PicUpload, SettingWrapper, RadioLabel, Label, 
-RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
-import { useRef } from 'react';
+  RadioBtn, BtnWrapper, SubmitBtn, Error} from './BoardWrite.styles'
 import { useForm } from 'react-hook-form';
-import { useMutation, gql} from '@apollo/client';
-import { useRouter } from 'next/router'
 
-const CREATE_BOARD = gql`
-  mutation createBoard($CreateBoardInput: CreateBoardInput!){
-    createBoard(createBoardInput: $CreateBoardInput) {
-      _id
-      writer
-      title
-      contents
-    }
-  }
-`
-
-export default function Boards() {
+export default function BoardWriteUI({onSubmit}) {
   const {register,watch, formState : {errors}, handleSubmit} = useForm();
-  // console.log(watch('content'));
-  const router = useRouter();
-  const [createBoard] = useMutation(CREATE_BOARD);
-
-  
-  const onSubmit = async (data) => {
-  if(data) {
-    try{
-      const result = await createBoard({
-         variables : {
-           CreateBoardInput : {
-             writer : data.user,
-             password : data.password,
-             title : data.subject,
-             contents : data.content,
-            }
-          }
-        });
-        console.log(result);
-        router.push(`/${result.data.createBoard._id}`)
-      } catch(error) {
-        console.log(error);
-      }  
-    }
-  }
-
-//비밀번호 확인하기
-// const password = useRef();
-// password.current = watch('password');
 
   return(
     <Container>
@@ -80,18 +37,6 @@ export default function Boards() {
                 })}/>
               {errors.password && (<Error>{errors.password.message}</Error>)}
             </InputWrapper2>
-            {/* <InputWrapper2>
-              <Label>비밀번호 확인</Label>
-              <Password type="password" placeholder='비밀번호를 한 번 더 입력하세요.' 
-              {...register('passwordConfirm', {
-                required : "비밀번호를 확인해주세요.",
-                validate : (value) => {
-                    value === password.current
-                }
-                })}/>
-                {errors.passwordConfirm && <Error>{errors.passwordConfirm.message}</Error>}
-              {errors.password && (<Error>{errors.password.message}</Error>)}
-            </InputWrapper2> */}
           </UserWrapper>
           <InputWrapper> 
             <Label>제목</Label>
@@ -142,5 +87,4 @@ export default function Boards() {
       </Wrapper>
     </Container>
   )
-
 }
