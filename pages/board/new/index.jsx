@@ -1,6 +1,6 @@
 import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, UserWrapper, User, Password, Subject, Content, ZipcodeWrapper, Zipcode, ZipcodeBtn, Address, Youtube, UploadWrapper, Plus, PicUpload, SettingWrapper, RadioLabel, Label, 
 RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, gql} from '@apollo/client';
 import { useRouter } from 'next/router'
@@ -20,22 +20,10 @@ export default function Boards() {
   const {register,watch, formState : {errors}, handleSubmit} = useForm();
   // console.log(watch('content'));
   const router = useRouter();
-
   const [createBoard] = useMutation(CREATE_BOARD);
 
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
-  const [subject, setSubject] = useState("");
-  const [content, setContent] = useState("");
   
   const onSubmit = async (data) => {
-    
-  //   console.log(data)
-  // setUser(data.user);
-  // setPassword(data.password);
-  // setSubject(data.subject);
-  // setContent(data.content);
-
   if(data) {
     try{
       const result = await createBoard({
@@ -49,8 +37,7 @@ export default function Boards() {
           }
         });
         console.log(result);
-        router.push(`board/${result.data.createBoard._id
-        }`)
+        router.push(`/${result.data.createBoard._id}`)
       } catch(error) {
         console.log(error);
       }  
