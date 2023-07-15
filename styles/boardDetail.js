@@ -53,7 +53,7 @@ export const Writer = styled.span`
   font-weight: 500;
 `
 
-export const CreateAt = styled.span`
+export const CreatedAt = styled.span`
   color : #828282;
 `
 

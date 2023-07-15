@@ -3,10 +3,11 @@ RadioBtn, BtnWrapper, SubmitBtn, Error} from '../../../styles/boardNew'
 import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, gql} from '@apollo/client';
+import { useRouter } from 'next/router'
 
 const CREATE_BOARD = gql`
-  mutation createBoard($CreateBoardInput : CreateBoardInput!){
-    createBoard(createBoardInput : $CreateBoardInput) {
+  mutation createBoard($CreateBoardInput: CreateBoardInput!){
+    createBoard(createBoardInput: $CreateBoardInput) {
       _id
       writer
       title
@@ -18,6 +19,7 @@ const CREATE_BOARD = gql`
 export default function Boards() {
   const {register,watch, formState : {errors}, handleSubmit} = useForm();
   // console.log(watch('content'));
+  const router = useRouter();
 
   const [createBoard] = useMutation(CREATE_BOARD);
 
@@ -27,25 +29,32 @@ export default function Boards() {
   const [content, setContent] = useState("");
   
   const onSubmit = async (data) => {
+    
+  //   console.log(data)
+  // setUser(data.user);
+  // setPassword(data.password);
+  // setSubject(data.subject);
+  // setContent(data.content);
 
-    setUser(data.user);
-    setPassword(data.password);
-    setSubject(data.subject);
-    setContent(data.content);
-
-    if(user && password && subject && content) {
+  if(data) {
+    try{
       const result = await createBoard({
-        variables : {
-          CreateBoardInput : {
-            writer : user,
-            password,
-            title : subject,
-            contents : content,
+         variables : {
+           CreateBoardInput : {
+             writer : data.user,
+             password : data.password,
+             title : data.subject,
+             contents : data.content,
+            }
           }
-        }
-      });
+        });
+        console.log(result);
+        router.push(`board/${result.data.createBoard._id
+        }`)
+      } catch(error) {
+        console.log(error);
+      }  
     }
-    console.log(result);
   }
 
 //비밀번호 확인하기
