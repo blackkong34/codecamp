@@ -3,7 +3,16 @@ import {Container, Wrapper, Title, WriteWrapper, InputWrapper, InputWrapper2, Us
 import { useForm } from 'react-hook-form';
 
 export default function BoardWriteUI({onSubmit}) {
-  const {register,watch, formState : {errors}, handleSubmit} = useForm();
+  const {register,watch, formState : {errors, isValid}, handleSubmit} = useForm({
+    mode : 'onChange',
+    defaultValues : {
+      writer : "",
+      password : "",
+      title : "",
+      contents : "",
+    }
+  });
+  
 
   return(
     <Container>
@@ -14,12 +23,13 @@ export default function BoardWriteUI({onSubmit}) {
             <InputWrapper2>
               <Label>작성자</Label>
               <User type="text" placeholder="이름을 입력해주세요."
-                {...register('user', {required : true})}/>
-                {errors.user?.type === 'required' && (<Error>이름이 입력되지 않았습니다</Error>)}       
+                {...register('writer', {required : "이름이 입력되지 않았습니다"})}/>
+                {errors.writer?.type === 'required' && (<Error>{errors.writer.message}</Error>)}       
             </InputWrapper2>
             <InputWrapper2>
               <Label>비밀번호</Label>
-              <Password type="password" placeholder='영문, 숫자, 특수문자를 혼용하여 8~16자를 입력해주세요.' 
+              <Password type="password" 
+              placeholder='영문, 숫자, 특수문자sd를 혼용하여 8~16자를 입력해주세요.' 
               {...register('password', {
                 required : "비밀번호가 입력되지 않았습니다.",
                 minLength : {
@@ -41,14 +51,14 @@ export default function BoardWriteUI({onSubmit}) {
           <InputWrapper> 
             <Label>제목</Label>
             <Subject type = "text" placeholder='제목을 작성해주세요.'
-              {...register("subject", {required : true})}/>
-            {errors.subject?.type === "required" && (<Error>제목이 입력되지 않았습니다</Error>)}
+              {...register("title", {required : "제목이 입력되지 않았습니다"})}/>
+            {errors.title?.type === "required" && (<Error>{errors.title.message}</Error>)}
           </InputWrapper>
           <InputWrapper>
             <Label>내용</Label>
             <Content type = "textarea" placeholder='내용을 작성해주세요.'
-            {...register("content", {required : true})}/>
-            {errors.content?.type === "required" && (<Error>내용이 입력되지 않았습니다</Error>)}
+            {...register("contents", {required : "내용이 입력되지 않았습니다"})}/>
+            {errors.contents?.type === "required" && (<Error>{errors.contents.message}</Error>)}
           </InputWrapper>
           <InputWrapper>
             <Label>주소</Label>
@@ -81,7 +91,7 @@ export default function BoardWriteUI({onSubmit}) {
             </SettingWrapper>
           </InputWrapper>
           <BtnWrapper>
-            <SubmitBtn>등록하기</SubmitBtn>
+            <SubmitBtn type = "submit" disabled = {!isValid}>등록하기</SubmitBtn>
           </BtnWrapper>
         </WriteWrapper> 
       </Wrapper>

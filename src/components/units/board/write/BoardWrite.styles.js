@@ -154,7 +154,8 @@ export const BtnWrapper = styled.div`
   
 export const SubmitBtn = styled.button`
   padding: 14px 60px;
-  background: #FFD600;
+  background: ${(props) => props.disabled ? "#BDBDBD" : "#FFD600"};
+  color : black;
   font-weight: 500;
   border-style: none;
   cursor: pointer;
