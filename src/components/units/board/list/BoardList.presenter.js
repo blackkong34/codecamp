@@ -2,16 +2,15 @@ import * as S from './BoardList.styles'
 import {useForm} from 'react-hook-form';
 
 
-export default function BoardListUI({data}) {
+export default function BoardListUI({data, onClickNewBoard, onClickDetailBoard}) {
   const {register} = useForm();
-  console.log(data)
   return(
     <S.Wrapper>
       <S.Header>
         <S.Title>베스트 게시글</S.Title>
         <S.CardsWrapper>
           {data?.fetchBoardsOfTheBest?.map(item => (
-            <S.Card key = {item._id}>
+            <S.Card key = {item._id} id = {item._id} onClick = {onClickNewBoard}>
               <S.CardImg src = {item.images[0] ?? "/assets/images/car.jpg"}/>
               <S.CardContents>
                 <S.CardTitle>{item.title}</S.CardTitle>
@@ -64,8 +63,8 @@ export default function BoardListUI({data}) {
           </thead>
           <tbody>
           {data?.fetchBoards.slice().reverse().map((item, idx) => ( <S.Row key = {item._id}>
-            <S.Column>{10-idx}</S.Column>
-            <S.Column>{item.title}</S.Column>
+            <S.Column>{item._id.slice(-4).toUpperCase()}</S.Column>
+            <S.ColumnTitle id = {item._id} onClick={onClickDetailBoard}>{item.title}</S.ColumnTitle>
             <S.Column>{item.writer}</S.Column>
             <S.Column>{(item.createdAt).slice(0).substring(0,10)}</S.Column>
             </S.Row>
@@ -79,7 +78,7 @@ export default function BoardListUI({data}) {
             <S.PageNum>2</S.PageNum>
             <S.Icon src = '/assets/icons/navigate_next.png' alt = "이전 페이지"/>
           </S.Pagination>
-          <S.NewBtn>
+          <S.NewBtn onClick={onClickNewBoard}>
             <S.Icon src="/assets/icons/create.png"></S.Icon>게시물 등록하기</S.NewBtn>
         </S.Footer>
       </S.Body>

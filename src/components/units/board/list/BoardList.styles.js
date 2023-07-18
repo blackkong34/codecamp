@@ -213,6 +213,9 @@ export const Column = styled.td`
   border-left : none;
   border-right : none;
 `
+export const ColumnTitle = styled(Column)`
+  cursor: pointer;
+`
 export const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -239,5 +242,6 @@ export const NewBtn = styled.button`
   position: absolute;
   right: 0;
   top: -50%;
+  cursor: pointer;
 `
 
