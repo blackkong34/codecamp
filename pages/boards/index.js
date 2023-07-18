@@ -4,7 +4,6 @@ export default function Boards() {
 
   return (
     <>
-      <div>안녕</div>
       <BoardList/> 
     </>
 

@@ -1,54 +1,56 @@
-import {BoardDetailWrapper, CardWrapper, Header, AvatarWrapper, Avatar, AvatarInfo, Writer,CreatedAt, HeaderIcon, Body, BoardTitle, ImageBox, Content, VideoBox, Video, PlayIcon, Bottom, IconBox, Icon, Like, Dislike, BtnWrapper, Btn, ReviewsWrapper, ReviewHeader, ReviewTitle } from './BoardDetail.styles'
+import * as S from './BoardDetail.styles'
+import { getDate } from '../../../../commons/libraries/utils.js'
+export default function BoardDetailUI({data, onClickDeleteBoard}) {
 
-export default function BoardDetailUI(props) {
+
   return(
-    <BoardDetailWrapper>
-      <CardWrapper>
-        <Header>
-        <AvatarWrapper>
-          <Avatar src = "/assets/icons/profile.png" alt = "프로필사진"/>
-          <AvatarInfo>
-            <Writer>{props.data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}</Writer>
-            <CreatedAt>Date : {props.data?.fetchBoard?.createdAt.substr(0, 10)}</CreatedAt>
-          </AvatarInfo>
-        </AvatarWrapper>
+    <S.BoardDetailWrapper>
+      <S.CardWrapper>
+        <S.Header>
+        <S.AvatarWrapper>
+          <S.Avatar src = "/assets/icons/profile.png" alt = "프로필사진"/>
+          <S.AvatarInfo>
+            <S.Writer>{data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}</S.Writer>
+            <S.CreatedAt>Date : {getDate(data?.fetchBoard.createdAt)}</S.CreatedAt>
+          </S.AvatarInfo>
+        </S.AvatarWrapper>
           <div>
-            <HeaderIcon src = "/assets/icons/link.png"/>
-            <HeaderIcon src = "/assets/icons/location.png"/>
+            <S.HeaderIcon src = "/assets/icons/link.png"/>
+            <S.HeaderIcon src = "/assets/icons/location.png"/>
           </div>
-        </Header>
-        <Body>
-          <BoardTitle>{props.data?.fetchBoard?.title}</BoardTitle>
-          <ImageBox></ImageBox>
-          <Content>{props.data?.fetchBoard?.contents}</Content>
-          <VideoBox>
-            <Video>
-              <PlayIcon src = "/assets/icons/play.png"></PlayIcon>
-            </Video>
-          </VideoBox>
-        </Body>
-        <Bottom>
-          <IconBox>
-            <Icon src = "/assets/icons/thumb_up.png"/>
-            <Like>1920</Like>
-          </IconBox>
-          <IconBox>
-            <Icon src = "/assets/icons/thumb_down.png"/>
-            <Dislike>1920</Dislike>
-          </IconBox>
-        </Bottom>
-      </CardWrapper>
-      <BtnWrapper>
-        <Btn>목록으로</Btn>
-        <Btn>수정하기</Btn>
-        <Btn>삭제하기</Btn>
-      </BtnWrapper>
-      <ReviewsWrapper>
-        <ReviewHeader>
-          <Icon src = "/assets/icons/review.png"/>
-          <ReviewTitle>댓글</ReviewTitle>
-        </ReviewHeader>
-      </ReviewsWrapper>
-    </BoardDetailWrapper>  
+        </S.Header>
+        <S.Body>
+          <S.BoardTitle>{data?.fetchBoard?.title}</S.BoardTitle>
+          <S.ImageBox></S.ImageBox>
+          <S.Content>{data?.fetchBoard?.contents}</S.Content>
+          <S.VideoBox>
+            <S.Video>
+              <S.PlayIcon src = "/assets/icons/play.png"></S.PlayIcon>
+            </S.Video>
+          </S.VideoBox>
+        </S.Body>
+        <S.Bottom>
+          <S.IconBox>
+            <S.Icon src = "/assets/icons/thumb_up.png"/>
+            <S.Like>1920</S.Like>
+          </S.IconBox>
+          <S.IconBox>
+            <S.Icon src = "/assets/icons/thumb_down.png"/>
+            <S.Dislike>1920</S.Dislike>
+          </S.IconBox>
+        </S.Bottom>
+      </S.CardWrapper>
+      <S.BtnWrapper>
+        <S.Btn>목록으로</S.Btn>
+        <S.Btn>수정하기</S.Btn>
+        <S.Btn id = {data?.fetchBoard._id} onClick={onClickDeleteBoard}>삭제하기</S.Btn>
+      </S.BtnWrapper>
+      <S.ReviewsWrapper>
+        <S.ReviewHeader>
+          <S.Icon src = "/assets/icons/review.png"/>
+          <S.ReviewTitle>댓글</S.ReviewTitle>
+        </S.ReviewHeader>
+      </S.ReviewsWrapper>
+    </S.BoardDetailWrapper>  
   )
 }

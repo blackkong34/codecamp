@@ -1,5 +1,6 @@
 import * as S from './BoardList.styles'
 import {useForm} from 'react-hook-form';
+import { getDate } from '../../../../commons/libraries/utils.js'
 
 
 export default function BoardListUI({data, onClickNewBoard, onClickDetailBoard}) {
@@ -20,7 +21,7 @@ export default function BoardListUI({data, onClickNewBoard, onClickDetailBoard})
                       <S.Icon src = "/assets/icons/profile.png" alt = "작성자프로필"/>
                       <S.CardWriter>{item.writer}</S.CardWriter>
                     </S.AvatarBox>
-                    <S.CardCreatedAt>Date : {(item.createdAt).slice(0).substring(0,10)}</S.CardCreatedAt>
+                    <S.CardCreatedAt>Date : {getDate(item.createdAt)}</S.CardCreatedAt>
                   </S.CardProfile>
                   <S.LikeBox>
                     <S.Like src = '/assets/icons/thumb_up.png' alt = "좋아요"/>
@@ -66,7 +67,7 @@ export default function BoardListUI({data, onClickNewBoard, onClickDetailBoard})
             <S.Column>{item._id.slice(-4).toUpperCase()}</S.Column>
             <S.ColumnTitle id = {item._id} onClick={onClickDetailBoard}>{item.title}</S.ColumnTitle>
             <S.Column>{item.writer}</S.Column>
-            <S.Column>{(item.createdAt).slice(0).substring(0,10)}</S.Column>
+            <S.Column>{getDate(item.createdAt)}</S.Column>
             </S.Row>
           ))}
           </tbody>

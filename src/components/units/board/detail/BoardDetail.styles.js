@@ -154,6 +154,12 @@ export const Btn = styled.button`
   background: #fff;
   border-style: none;
   border : 1px solid #bdbdbd;
+  cursor: pointer;
+
+  &:hover {
+    background : #000;
+    color : #fff;
+  }
 `
 
 export const ReviewsWrapper = styled.section`
