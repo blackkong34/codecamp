@@ -1,11 +1,5 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-`
 export const BoardDetailWrapper = styled.article`
   width: 1200px;
   margin-top: 80px;
