@@ -1,22 +1,35 @@
 import { useMutation } from '@apollo/client'; 
 import { useRouter } from 'next/router';
-import { CREATE_BOARD } from './BoardWrite.quires'; 
+import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.quires'; 
 import BoardWriteUI from './BoardWrite.presenter'; 
 
-export default function Boards() {
+export default function Boards(props) {
   const router = useRouter();
   const [createBoard] = useMutation(CREATE_BOARD); 
+  const [updateBoard] = useMutation(UPDATE_BOARD);
 
-  const onSubmit = async (data) => { 
-  if(data)  {
+  const updateVariables = {
+    boardId : router.query.boardId,
+  }
+  // UpdateBoardInput : {
+  //   title, 
+  //   contents,
+  //   youtubeUrl,
+  //   boardAddress,
+  //   images,
+  // }
+  // console.log(formData)
+
+  const onSubmitCreate = async (formData) => { 
+  if(formData)  {
     try{ 
       const result = await createBoard({ 
          variables : {
            CreateBoardInput : {
-             writer : data.writer,
-             password : data.password,
-             title : data.Title,
-             contents : data.contents,
+             writer : formData.writer,
+             password : formData.password,
+             title : formData.Title,
+             contents : formData.contents,
             }
           }
         });
@@ -26,10 +39,21 @@ export default function Boards() {
       }  
     }
   }
+  const onClickMoveToBack = () => {
+    router.back();
+  }
+  const onSubmitUpdate = () => {
+    //gkatn
+  }
 
   return(
     <BoardWriteUI 
-      onSubmit = {onSubmit}>
+      isEdit = {props.isEdit}
+      data = {props.data}
+      onSubmitCreate = {onSubmitCreate}
+      onSubmitUpdate = {onSubmitUpdate}
+      onClickMoveToBack = {onClickMoveToBack}
+      >
     </BoardWriteUI>
   )
 

@@ -3,7 +3,7 @@ import BoardWrite from '../../../src/components/units/board/write/BoardWrite.con
 export default function Boards() {
 
   return(
-    <BoardWrite/>
+    <BoardWrite isEdit = {false}/>
   )
 
 }

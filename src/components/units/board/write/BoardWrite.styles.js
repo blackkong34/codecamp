@@ -146,8 +146,17 @@ export const BtnWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap : 24px;
 `
-  
+export const CancealBtn = styled.button`
+  padding: 14px 60px;
+  background: #bdbdbd;
+  color : #4f4f4f;
+  font-weight: 500;
+  border-style: none;
+  cursor: pointer;
+`
+
 export const SubmitBtn = styled.button`
   padding: 14px 60px;
   background: ${(props) => props.disabled ? "#BDBDBD" : "#FFD600"};
@@ -161,3 +170,4 @@ export const Error = styled.span`
   font-size: 14px;
   color: red;
 `
+
