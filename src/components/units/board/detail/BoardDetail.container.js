@@ -10,7 +10,6 @@ export default function BoardDetail() {
     variables : {boardId : router.query.boardId},
   });
   const [ deleteBoard ] = useMutation(DELETE_BOARD);
-  
   const onClickDeleteBoard = async (e) => {
     const answer = confirm("삭제하시겠습니까?")
     if (answer) {
@@ -29,7 +28,6 @@ export default function BoardDetail() {
   }
 
   const onclickMoveToEdit = () => {
-    console.log("클릭")
     router.push(`/boards/${router.query.boardId}/edit`);
   }
 

@@ -8,17 +8,8 @@ export default function Boards(props) {
   const [createBoard] = useMutation(CREATE_BOARD); 
   const [updateBoard] = useMutation(UPDATE_BOARD);
 
-  const updateVariables = {
-    boardId : router.query.boardId,
-  }
-  // UpdateBoardInput : {
-  //   title, 
-  //   contents,
-  //   youtubeUrl,
-  //   boardAddress,
-  //   images,
-  // }
-  // console.log(formData)
+  const updateVariables = {}
+
 
   const onSubmitCreate = async (formData) => { 
   if(formData)  {
@@ -39,11 +30,27 @@ export default function Boards(props) {
       }  
     }
   }
+
   const onClickMoveToBack = () => {
     router.back();
   }
-  const onSubmitUpdate = () => {
-    //gkatn
+
+  const onSubmitUpdate = async (formData) => {
+    if(formData.title) updateVariables.title = formData.title;
+    if(formData.contents) updateVariables.contents = formData.contents;
+    try {
+      const res = await updateBoard({
+        variables : {
+          boardId : router.query.boardId,
+          password : formData.password,
+          updateBoardInput: updateVariables,
+        }
+      });
+      alert("게시글이 수정되었습니다")
+      router.push(`/boards/${router.query.boardId}/`)
+    } catch(error) {
+        alert(error)
+      }
   }
 
   return(

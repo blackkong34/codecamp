@@ -2,11 +2,10 @@ import * as S from './BoardWrite.styles'
 import { useForm } from 'react-hook-form';
 
 export default function BoardWriteUI({isEdit, data, onSubmitCreate, onSubmitUpdate, onClickMoveToBack}) {
-console.log(data)
   const {register,watch, formState : {errors, isValid}, handleSubmit} = useForm({
     mode : 'onSubmit',
     defaultValues : {
-      writer : data?.fetchBoard.writer,
+      writer : "작성자",
       password : "",
       title : data?.fetchBoard?.title,
       contents : data?.fetchBoard?.contents,
@@ -17,11 +16,11 @@ console.log(data)
   return( 
     <S.Wrapper>
       <S.Title>{isEdit? "게시글 수정" : "게시글 등록"}</S.Title>
-      <S.WriteWrapper onSubmit={handleSubmit(isEdit ? onSubmitCreate : onSubmitUpdate)}>
+      <S.WriteWrapper onSubmit={handleSubmit(isEdit ? onSubmitUpdate : onSubmitCreate)}>
         <S.UserWrapper>
           <S.InputWrapper2>
             <S.Label>작성자</S.Label>
-            <S.User type="text" placeholder="이름을 입력해주세요." 
+            <S.User type="text" placeholder="이름을 입력해주세요." disabled = {isEdit}
               {...register('writer', {required : "이름이 입력되지 않았습니다"})}/>
               {errors.writer?.type === 'required' && (<S.Error>{errors.writer.message}</S.Error>)}       
           </S.InputWrapper2>
