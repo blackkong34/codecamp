@@ -215,6 +215,9 @@ export const Column = styled.td`
 `
 export const ColumnTitle = styled(Column)`
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `
 export const Footer = styled.div`
   display: flex;

@@ -2,14 +2,17 @@ import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.quires'; 
 import BoardWriteUI from './BoardWrite.presenter'; 
+import { useState } from 'react';
+import { validate } from 'graphql';
+
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default function Boards(props) {
   const router = useRouter();
   const [createBoard] = useMutation(CREATE_BOARD); 
   const [updateBoard] = useMutation(UPDATE_BOARD);
-
-  const updateVariables = {}
-
+  const [isValidEdit, setIsValidEdit] = useState(true)
 
   const onSubmitCreate = async (formData) => { 
   if(formData)  {
@@ -35,7 +38,14 @@ export default function Boards(props) {
     router.back();
   }
 
+  // const handleIsValidEdit = (formData) => {
+  //   if(formData.password && formData.title && formData.contents) {
+  //     setIsValidEdit(prev => !prev);
+  //   }
+  // }
+  
   const onSubmitUpdate = async (formData) => {
+    const updateVariables = {}
     if(formData.title) updateVariables.title = formData.title;
     if(formData.contents) updateVariables.contents = formData.contents;
     try {
@@ -53,15 +63,18 @@ export default function Boards(props) {
       }
   }
 
+
   return(
-    <BoardWriteUI 
+     <BoardWriteUI 
       isEdit = {props.isEdit}
+      // isValidEdit = {isValidEdit}
+      // handleIsValidEdit = {handleIsValidEdit}
       data = {props.data}
       onSubmitCreate = {onSubmitCreate}
       onSubmitUpdate = {onSubmitUpdate}
       onClickMoveToBack = {onClickMoveToBack}
-      >
-    </BoardWriteUI>
+      />
+
   )
 
 }

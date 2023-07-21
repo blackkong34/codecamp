@@ -163,7 +163,7 @@ export const SubmitBtn = styled.button`
   color : black;
   font-weight: 500;
   border-style: none;
-  cursor: pointer;
+  cursor:  ${(props) => props.disabled ? "default ": "pointer"};
 `
 
 export const Error = styled.span`
