@@ -1,23 +1,33 @@
-import * as S from './BoardDetail.styles'
-import { getDate } from '../../../../commons/libraries/utils.js'
+import * as S from "./BoardDetail.styles";
+import { getDate } from "../../../../commons/libraries/utils.js";
+import { useForm } from "react-hook-form";
 
+export default function BoardDetailUI({
+  data,
+  onClickDeleteBoard,
+  onclickMoveToEdit,
+  onClickMoveToList,
+}) {
+  const { register, handleSubmit } = useForm();
 
-export default function BoardDetailUI({data, onClickDeleteBoard, onclickMoveToEdit, onClickMoveToList}) {
-
-  return(
+  return (
     <S.BoardDetailWrapper>
       <S.CardWrapper>
         <S.Header>
-        <S.AvatarWrapper>
-          <S.Avatar src = "/assets/icons/profile.png" alt = "프로필사진"/>
-          <S.AvatarInfo>
-            <S.Writer>{data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}</S.Writer>
-            <S.CreatedAt>Date : {getDate(data?.fetchBoard.createdAt)}</S.CreatedAt>
-          </S.AvatarInfo>
-        </S.AvatarWrapper>
+          <S.AvatarWrapper>
+            <S.Avatar src="/assets/icons/profile.png" alt="프로필사진" />
+            <S.AvatarInfo>
+              <S.Writer>
+                {data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}
+              </S.Writer>
+              <S.CreatedAt>
+                Date : {getDate(data?.fetchBoard.createdAt)}
+              </S.CreatedAt>
+            </S.AvatarInfo>
+          </S.AvatarWrapper>
           <div>
-            <S.HeaderIcon src = "/assets/icons/link.png"/>
-            <S.HeaderIcon src = "/assets/icons/location.png"/>
+            <S.HeaderIcon src="/assets/icons/link.png" />
+            <S.HeaderIcon src="/assets/icons/location.png" />
           </div>
         </S.Header>
         <S.Body>
@@ -26,17 +36,17 @@ export default function BoardDetailUI({data, onClickDeleteBoard, onclickMoveToEd
           <S.Content>{data?.fetchBoard?.contents}</S.Content>
           <S.VideoBox>
             <S.Video>
-              <S.PlayIcon src = "/assets/icons/play.png"></S.PlayIcon>
+              <S.PlayIcon src="/assets/icons/play.png"></S.PlayIcon>
             </S.Video>
           </S.VideoBox>
         </S.Body>
         <S.Bottom>
           <S.IconBox>
-            <S.Icon src = "/assets/icons/thumb_up.png"/>
+            <S.Icon src="/assets/icons/thumb_up.png" />
             <S.Like>1920</S.Like>
           </S.IconBox>
           <S.IconBox>
-            <S.Icon src = "/assets/icons/thumb_down.png"/>
+            <S.Icon src="/assets/icons/thumb_down.png" />
             <S.Dislike>1920</S.Dislike>
           </S.IconBox>
         </S.Bottom>
@@ -44,14 +54,10 @@ export default function BoardDetailUI({data, onClickDeleteBoard, onclickMoveToEd
       <S.BtnWrapper>
         <S.Btn onClick={onClickMoveToList}>목록으로</S.Btn>
         <S.Btn onClick={onclickMoveToEdit}>수정하기</S.Btn>
-        <S.Btn id = {data?.fetchBoard._id} onClick={onClickDeleteBoard}>삭제하기</S.Btn>
+        <S.Btn id={data?.fetchBoard._id} onClick={onClickDeleteBoard}>
+          삭제하기
+        </S.Btn>
       </S.BtnWrapper>
-      <S.ReviewsWrapper>
-        <S.ReviewHeader>
-          <S.Icon src = "/assets/icons/review.png"/>
-          <S.ReviewTitle>댓글</S.ReviewTitle>
-        </S.ReviewHeader>
-      </S.ReviewsWrapper>
-    </S.BoardDetailWrapper>  
-  )
+    </S.BoardDetailWrapper>
+  );
 }
