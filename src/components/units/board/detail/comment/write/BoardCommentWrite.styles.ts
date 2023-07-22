@@ -39,7 +39,7 @@ export const InputText = styled.input`
   border: 1px solid #bdbdbd;
   font-size: 16px;
 `;
-export const StarWrapper = styled.span`
+export const StarWrapper = styled.input`
   display: inline-block;
   position: relative;
   font-size: 24px;

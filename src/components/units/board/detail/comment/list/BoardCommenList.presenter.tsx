@@ -1,9 +1,9 @@
 import * as S from "./BoardCommentList.styles";
 import { getDate } from "../../../../../../commons/libraries/utils";
+import { IBoardCommentListUI } from "./BoardCommentList.types";
 
-export default function BoardCommentListUI(props) {
+export default function BoardCommentListUI(props: IBoardCommentListUI) {
   const { data } = props;
-  console.log(data);
   return (
     <S.ItemsWrapper>
       <S.ItemWrapper>

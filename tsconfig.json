@@ -19,7 +19,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/units/board/detail/comment/write/BoardCommentWrite.container.jsx"
+    "src/components/units/board/detail/comment/write/BoardCommentWrite.container.tsx"
   ],
   "exclude": ["node_modules"]
 }
