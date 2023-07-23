@@ -41,9 +41,19 @@ export default function Boards(props) {
   // }
 
   const onSubmitUpdate = async (formData) => {
+    if (!formData.title && !formData.contents) {
+      alert("수정할 내용이 없습니다.");
+      return;
+    }
+    if (!formData.password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
     const updateVariables = {};
     if (formData.title) updateVariables.title = formData.title;
     if (formData.contents) updateVariables.contents = formData.contents;
+
     try {
       const res = await updateBoard({
         variables: {
@@ -55,7 +65,7 @@ export default function Boards(props) {
       alert("게시글이 수정되었습니다");
       router.push(`/boards/${router.query.boardId}/`);
     } catch (error) {
-      alert(error);
+      alert(error.message);
     }
   };
 
@@ -63,7 +73,7 @@ export default function Boards(props) {
     <BoardWriteUI
       isEdit={props.isEdit}
       // isValidEdit = {isValidEdit}
-      // handleIsValidEdit = {handleIsValidEdit}
+      // handleIsValidEdit = {handleI sValidEdit}
       data={props.data}
       onSubmitCreate={onSubmitCreate}
       onSubmitUpdate={onSubmitUpdate}

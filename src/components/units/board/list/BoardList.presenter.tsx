@@ -1,21 +1,19 @@
 import * as S from "./BoardList.styles";
 import { getDate } from "../../../../commons/libraries/utils.js";
+import { IBoardListUIProps } from "./BoardList.types";
 
-export default function BoardListUI({
-  data,
-  onClickNewBoard,
-  onClickDetailBoard,
-}) {
+export default function BoardListUI(props: IBoardListUIProps) {
+  const { data, onClickMoveToNew, onClickMoveToDetail } = props;
   return (
     <S.Wrapper>
       <S.Header>
         <S.Title>베스트 게시글</S.Title>
         <S.CardsWrapper>
-          {data?.fetchBoardsOfTheBest?.map((item) => (
-            <S.Card key={item._id} id={item._id} onClick={onClickNewBoard}>
-              <S.CardImg src={item.images[0] ?? "/assets/images/car.jpg"} />
+          {data?.fetchBoardsOfTheBest?.map((el) => (
+            <S.Card key={el._id} id={el._id} onClick={onClickMoveToDetail}>
+              <S.CardImg src={el.images[0] ?? "/assets/images/car.jpg"} />
               <S.CardContents>
-                <S.CardTitle>{item.title}</S.CardTitle>
+                <S.CardTitle>{el.title}</S.CardTitle>
                 <S.CardInfo>
                   <S.CardProfile>
                     <S.AvatarBox>
@@ -23,15 +21,15 @@ export default function BoardListUI({
                         src="/assets/icons/profile.png"
                         alt="작성자프로필"
                       />
-                      <S.CardWriter>{item.writer}</S.CardWriter>
+                      <S.CardWriter>{el.writer}</S.CardWriter>
                     </S.AvatarBox>
                     <S.CardCreatedAt>
-                      Date : {getDate(item.createdAt)}
+                      Date : {getDate(el.createdAt)}
                     </S.CardCreatedAt>
                   </S.CardProfile>
                   <S.LikeBox>
                     <S.Like src="/assets/icons/thumb_up.png" alt="좋아요" />
-                    <S.Count>{item.likeCount}</S.Count>
+                    <S.Count>{el.likeCount}</S.Count>
                   </S.LikeBox>
                 </S.CardInfo>
               </S.CardContents>
@@ -76,16 +74,16 @@ export default function BoardListUI({
             </thead>
             <tbody>
               {data?.fetchBoards
-                .slice()
+                .slice(0)
                 .reverse()
-                .map((item, idx) => (
-                  <S.Row key={item._id}>
-                    <S.Column>{item._id.slice(-4).toUpperCase()}</S.Column>
-                    <S.ColumnTitle id={item._id} onClick={onClickDetailBoard}>
-                      {item.title}
+                .map((el) => (
+                  <S.Row key={el._id}>
+                    <S.Column>{el._id.slice(-4).toUpperCase()}</S.Column>
+                    <S.ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
+                      {el.title}
                     </S.ColumnTitle>
-                    <S.Column>{item.writer}</S.Column>
-                    <S.Column>{getDate(item.createdAt)}</S.Column>
+                    <S.Column>{el.writer}</S.Column>
+                    <S.Column>{getDate(el.createdAt)}</S.Column>
                   </S.Row>
                 ))}
             </tbody>
@@ -100,7 +98,7 @@ export default function BoardListUI({
               <S.PageNum>2</S.PageNum>
               <S.Icon src="/assets/icons/navigate_next.png" alt="이전 페이지" />
             </S.Pagination>
-            <S.NewBtn onClick={onClickNewBoard}>
+            <S.NewBtn onClick={onClickMoveToNew}>
               <S.Icon src="/assets/icons/create.png"></S.Icon>게시물 등록하기
             </S.NewBtn>
           </S.Footer>
