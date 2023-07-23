@@ -38,7 +38,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
         </S.CardsWrapper>
         <S.Body>
           <S.BodyHeader>
-            <S.Search
+            <S.SearchBar
               type="text"
               placeholder="제목을 검색해주세요"
               // {...register("search", {
@@ -61,7 +61,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
               <S.DateLine>~</S.DateLine>
               <S.Date type="date" required data-placeholder="YYYY.MM.DD" />
             </S.DateBox>
-            <S.SubmitBtn type="submit">검색하기</S.SubmitBtn>
+            <S.SearchBtn type="submit">검색하기</S.SearchBtn>
           </S.BodyHeader>
           <S.BodyTable>
             <thead>

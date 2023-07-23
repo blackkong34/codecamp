@@ -125,7 +125,7 @@ export const BodyHeader = styled.form`
   align-items: center;
   margin-bottom: 40px;
 `;
-export const Search = styled.input`
+export const SearchBar = styled.input`
   width: 776px;
   height: 52px;
   padding: 14px;
@@ -184,16 +184,24 @@ export const DateLine = styled.span`
   margin: 0 8px;
   color: #bdbdbd;
 `;
-export const SubmitBtn = styled.button`
-  width: 94px;
+export const SearchBtn = styled.button`
+  width: 100px;
   height: 52px;
   padding: 14px 16px;
   background: #000;
   border-radius: 10px;
   border-style: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+    transition: all 0.2s ease-in-out;
+  }
 `;
 export const BodyTable = styled.table`
   width: 100%;
@@ -255,4 +263,10 @@ export const NewBtn = styled.button`
   right: 0;
   top: -50%;
   cursor: pointer;
+
+  &:hover {
+    background: #ffd600;
+    border: 1px solid #ffd600;
+    transition: all 0.2s ease-in-out;
+  }
 `;

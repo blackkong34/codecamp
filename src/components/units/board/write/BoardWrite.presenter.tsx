@@ -1,11 +1,12 @@
 import * as S from "./BoardWrite.styles";
 import { useForm } from "react-hook-form";
+import { FormValues, IBoardWriteUIProps } from "./BoardWrite.types";
 
-export default function BoardWriteUI(props) {
+export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const {
     isEdit,
-    isValidEdit,
-    handleIsValidEdit,
+    // isValidEdit,
+    // handleIsValidEdit,
     data,
     onSubmitCreate,
     onSubmitUpdate,
@@ -18,8 +19,7 @@ export default function BoardWriteUI(props) {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm({
-    mode: "onClick",
+  } = useForm<FormValues>({
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
@@ -32,7 +32,7 @@ export default function BoardWriteUI(props) {
       >
         <S.UserWrapper>
           <S.InputWrapper2>
-            <S.Label htmlFor="writer">작성자</S.Label>
+            <S.Label>작성자</S.Label>
             <S.User
               type="text"
               placeholder="이름을 입력해주세요."
@@ -42,7 +42,7 @@ export default function BoardWriteUI(props) {
             />
           </S.InputWrapper2>
           <S.InputWrapper2>
-            <S.Label htmlFor="password">비밀번호</S.Label>
+            <S.Label>비밀번호</S.Label>
             <S.Password
               type="password"
               autoComplete="off"
@@ -67,7 +67,7 @@ export default function BoardWriteUI(props) {
           </S.InputWrapper2>
         </S.UserWrapper>
         <S.InputWrapper>
-          <S.Label htmlFor="title">제목</S.Label>
+          <S.Label>제목</S.Label>
           <S.Subject
             type="text"
             placeholder="제목을 작성해주세요."
@@ -79,9 +79,8 @@ export default function BoardWriteUI(props) {
           )}
         </S.InputWrapper>
         <S.InputWrapper>
-          <S.Label htmlFor="contents">내용</S.Label>
+          <S.Label>내용</S.Label>
           <S.Content
-            type="textarea"
             placeholder="내용을 작성해주세요."
             defaultValue={data?.fetchBoard.contents}
             {...register("contents", {
@@ -126,7 +125,7 @@ export default function BoardWriteUI(props) {
               type="radio"
               id="유튜브"
               name="mainSetting"
-              defaultChecked="checked"
+              defaultChecked={true}
             />
             <S.RadioLabel htmlFor="유튜브">유튜브</S.RadioLabel>
             <S.RadioBtn type="radio" name="mainSetting" id="사진" />
