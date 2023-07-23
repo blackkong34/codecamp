@@ -50,6 +50,7 @@ export const IconsBox = styled.div`
 export const Icon = styled.img`
   width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 export const Date = styled.span`
   color: #bdbdbd;

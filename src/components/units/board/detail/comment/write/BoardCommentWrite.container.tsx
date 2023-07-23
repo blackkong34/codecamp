@@ -1,6 +1,9 @@
 import { useMutation } from "@apollo/client";
 import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
-import { CREATE_BOARD_COMMENT } from "./BoardCommentWrite.queries";
+import {
+  CREATE_BOARD_COMMENT,
+  FETCH_BOARD_COMMENTS,
+} from "./BoardCommentWrite.queries";
 import { useRouter } from "next/router";
 import {
   IMutation,
@@ -25,10 +28,18 @@ export default function BoardCommentWrite() {
               writer: formData.writer,
               password: formData.password,
               contents: formData.contents,
-              rating: Number(formData.rating),
+              rating: +formData.rating,
             },
             boardId: String(router.query.boardId),
           },
+          refetchQueries: [
+            {
+              query: FETCH_BOARD_COMMENTS,
+              variables: {
+                boardId: router.query.boardId,
+              },
+            },
+          ],
         });
       } catch (error) {
         console.log(error);

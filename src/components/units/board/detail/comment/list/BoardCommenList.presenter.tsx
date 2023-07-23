@@ -3,7 +3,7 @@ import { getDate } from "../../../../../../commons/libraries/utils";
 import { IBoardCommentListUI } from "./BoardCommentList.types";
 
 export default function BoardCommentListUI(props: IBoardCommentListUI) {
-  const { data } = props;
+  const { data, onClickDeleteComment } = props;
   return (
     <S.ItemsWrapper>
       <S.ItemWrapper>
@@ -20,7 +20,11 @@ export default function BoardCommentListUI(props: IBoardCommentListUI) {
             </S.ItemMain>
             <S.IconsBox>
               <S.Icon src="/assets/icons/pencil.png" />
-              <S.Icon src="/assets/icons/clear.png" />
+              <S.Icon
+                id={el._id}
+                onClick={onClickDeleteComment}
+                src="/assets/icons/clear.png"
+              />
             </S.IconsBox>
           </S.Item>
         ))}
