@@ -1,34 +1,47 @@
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
+import { FormEvent } from "react";
 import { FETCH_BOARD, DELETE_BOARD } from "./BoardDetail.queries";
+import {
+  IQuery,
+  IQueryFetchBoardArgs,
+  IMutation,
+  IMutationDeleteBoardArgs,
+} from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
-import BoardCommentWrite from "./comment/write/BoardCommentWrite.container";
-import BoardCommentList from "./comment/list/BoardCommentList.container";
 
 export default function BoardDetail() {
   const router = useRouter();
 
-  const { data } = useQuery(FETCH_BOARD, {
-    variables: { boardId: router.query.boardId },
-  });
+  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
+    FETCH_BOARD,
+    {
+      variables: { boardId: String(router.query.boardId) },
+    }
+  );
 
-  const [deleteBoard] = useMutation(DELETE_BOARD);
+  const [deleteBoard] = useMutation<
+    Pick<IMutation, "deleteBoard">,
+    IMutationDeleteBoardArgs
+  >(DELETE_BOARD);
 
-  const onClickDeleteBoard = async (e) => {
+  const onClickDeleteBoard = async (e: FormEvent<HTMLElement>) => {
+    console.log(e.target);
     const answer = confirm("삭제하시겠습니까?");
-    if (answer) {
+    if (answer === false) {
+      e.preventDefault();
+      return;
+    }
+    if (answer && e.currentTarget.id) {
       try {
-        if (e.target.id) {
-          const res = await deleteBoard({
-            variables: { ID: e.target.id },
-          });
-        }
+        const res = await deleteBoard({
+          variables: { boardId: e.currentTarget.id },
+        });
       } catch (err) {
         console.log(err);
       }
+      alert("삭제되었습니다.");
       router.push("/boards");
-    } else {
-      e.preventDefault();
     }
   };
 
@@ -48,8 +61,6 @@ export default function BoardDetail() {
         onclickMoveToEdit={onclickMoveToEdit}
         onClickMoveToList={onClickMoveToList}
       />
-      <BoardCommentWrite />
-      <BoardCommentList />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useRouter } from "next/router";
 import { FormEvent } from "react";
-import BoardCommentListUI from "./BoardCommenList.presenter";
+import BoardCommentListUI from "./BoardCommentList.presenter";
 import {
   FETCH_BOARD_COMMENTS,
   DELETE_BOARD_COMMENT,
@@ -37,7 +37,7 @@ export default function BoardCommentList() {
     const res = await deleteBoardComment({
       variables: {
         password,
-        boardCommentId: e.target.id,
+        boardCommentId: e.currentTarget.id,
       },
       refetchQueries: [
         {

@@ -120,6 +120,7 @@ export const PicUpload = styled.button`
   background: #bdbdbd;
   color: #4f4f4f;
   font-size: 12px;
+  cursor: pointer;
 `;
 
 export const Plus = styled.span`

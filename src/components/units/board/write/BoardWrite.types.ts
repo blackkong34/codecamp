@@ -1,12 +1,8 @@
-import {
-  IQuery,
-  IMutationUpdateBoardArgs,
-  IMutationCreateBoardArgs,
-} from "../../../../commons/types/generated/types";
-
+import { IQuery } from "../../../../commons/types/generated/types";
+import { FormEvent } from "react";
 export interface IBoardsProps {
-  data?: Pick<IQuery, "fetchBoard">;
   isEdit: boolean;
+  data?: Pick<IQuery, "fetchBoard">;
 }
 
 export type FormValues = {
@@ -19,5 +15,5 @@ export type FormValues = {
 export interface IBoardWriteUIProps extends IBoardsProps {
   onSubmitCreate?: (formData: Required<FormValues>) => void;
   onSubmitUpdate?: (formData: FormValues) => void;
-  onClickMoveToBack?: () => void;
+  onClickMoveToBack?: (e: FormEvent<HTMLElement>) => void;
 }

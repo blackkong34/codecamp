@@ -1,29 +1,30 @@
 import * as S from "./BoardWrite.styles";
 import { useForm } from "react-hook-form";
 import { FormValues, IBoardWriteUIProps } from "./BoardWrite.types";
+import { useEffect, useMemo } from "react";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
-  const {
-    isEdit,
-    // isValidEdit,
-    // handleIsValidEdit,
-    data,
-    onSubmitCreate,
-    onSubmitUpdate,
-    onClickMoveToBack,
-  } = props;
-
+  const { isEdit, data, onSubmitCreate, onSubmitUpdate, onClickMoveToBack } =
+    props;
   const {
     register,
     watch,
-    formState: { errors, isValid },
-    handleSubmit,
     reset,
+    formState: { errors, isValid, dirtyFields },
+    handleSubmit,
   } = useForm<FormValues>({
+    mode: "onChange",
     reValidateMode: "onChange",
     shouldFocusError: true,
+    defaultValues: data?.fetchBoard,
   });
-
+  // useMemo(() => {
+  //   return data?.fetchBoard;
+  // }, [data]),
+  console.log(data);
+  // useEffect(() => {
+  //   reset(data?.fetchBoard);
+  // }, [data?.fetchBoard]);
   return (
     <S.Wrapper>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
@@ -36,7 +37,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             <S.User
               type="text"
               placeholder="이름을 입력해주세요."
-              defaultValue={data?.fetchBoard.writer}
+              // defaultValue={data?.fetchBoard.writer ?? ""}
               disabled={isEdit}
               {...register("writer")}
             />
@@ -71,7 +72,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.Subject
             type="text"
             placeholder="제목을 작성해주세요."
-            defaultValue={data?.fetchBoard.title}
+            // defaultValue={data?.fetchBoard.title}
             {...register("title", { required: "제목이 입력되지 않았습니다" })}
           />
           {errors.title?.type === "required" && (
@@ -82,7 +83,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.Label>내용</S.Label>
           <S.Content
             placeholder="내용을 작성해주세요."
-            defaultValue={data?.fetchBoard.contents}
+            // defaultValue={data?.fetchBoard.contents}
             {...register("contents", {
               required: "내용이 입력되지 않았습니다",
             })}
@@ -107,13 +108,13 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
         <S.InputWrapper>
           <S.Label>사진첨부</S.Label>
           <S.UploadWrapper>
-            <S.PicUpload>
+            <S.PicUpload type="button">
               <S.Plus>+</S.Plus>Upload
             </S.PicUpload>
-            <S.PicUpload>
+            <S.PicUpload type="button">
               <S.Plus>+</S.Plus>Upload
             </S.PicUpload>
-            <S.PicUpload>
+            <S.PicUpload type="button">
               <S.Plus>+</S.Plus>Upload
             </S.PicUpload>
           </S.UploadWrapper>
@@ -138,7 +139,17 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               취소하기
             </S.CancealBtn>
           )}
-          <S.SubmitBtn type="submit" disabled={!isValid}>
+          <S.SubmitBtn
+            type="submit"
+            disabled={
+              isEdit
+                ? !(
+                    (dirtyFields.password && dirtyFields.contents) ||
+                    (dirtyFields.password && dirtyFields.title)
+                  )
+                : !isValid
+            }
+          >
             {isEdit ? "수정하기" : "등록하기"}
           </S.SubmitBtn>
         </S.BtnWrapper>

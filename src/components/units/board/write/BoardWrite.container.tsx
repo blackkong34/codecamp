@@ -1,14 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.quires";
-import BoardWriteUI from "./BoardWrite.presenter";
+import { FormEvent } from "react";
 import { IBoardsProps, FormValues } from "./BoardWrite.types";
 import {
   IMutation,
   IMutationCreateBoardArgs,
   IMutationUpdateBoardArgs,
 } from "../../../../commons/types/generated/types";
+import BoardWriteUI from "./BoardWrite.presenter";
 export default function Boards(props: IBoardsProps) {
   const router = useRouter();
   const [createBoard] = useMutation<
@@ -19,7 +19,6 @@ export default function Boards(props: IBoardsProps) {
     Pick<IMutation, "updateBoard">,
     IMutationUpdateBoardArgs
   >(UPDATE_BOARD);
-  const [isValidEdit, setIsValidEdit] = useState(true);
 
   const onSubmitCreate = async (formData: Required<FormValues>) => {
     if (formData) {
@@ -41,15 +40,11 @@ export default function Boards(props: IBoardsProps) {
     }
   };
 
-  const onClickMoveToBack = () => {
-    router.back();
+  const onClickMoveToBack = (e: FormEvent<HTMLElement>) => {
+    confirm("게시글 수정을 취소하시겠습까?")
+      ? router.back()
+      : e.preventDefault();
   };
-
-  // const handleIsValidEdit = (formData) => {
-  //   if(formData.password && formData.title && formData.contents) {
-  //     setIsValidEdit(prev => !prev);
-  //   }
-  // }
 
   const onSubmitUpdate = async (formData: FormValues) => {
     if (!formData.title && !formData.contents) {
@@ -66,9 +61,13 @@ export default function Boards(props: IBoardsProps) {
     if (formData.contents) updateVariables.contents = formData.contents;
 
     try {
+      if (router.query.boardId !== "string") {
+        alert("시스템에 문제가 발생했습니다.");
+        return;
+      }
       const res = await updateBoard({
         variables: {
-          boardId: String(router.query.boardId),
+          boardId: router.query.boardId,
           password: formData.password,
           updateBoardInput: updateVariables,
         },
@@ -76,14 +75,13 @@ export default function Boards(props: IBoardsProps) {
       alert("게시글이 수정되었습니다");
       router.push(`/boards/${router.query.boardId}/`);
     } catch (error) {
-      alert(error.message);
+      if (error instanceof Error) alert(error.message);
     }
   };
-
   return (
     <BoardWriteUI
       isEdit={props.isEdit}
-      // isValidEdit = {isValidEdit}
+      // isEditValid = {isValidEdit}
       // handleIsValidEdit = {handleI sValidEdit}
       data={props.data}
       onSubmitCreate={onSubmitCreate}

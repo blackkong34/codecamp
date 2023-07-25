@@ -1,5 +1,5 @@
 import * as S from "./BoardDetail.styles";
-import { getDate } from "../../../../commons/libraries/utils.js";
+import { getDate } from "../../../../commons/libraries/utils";
 import { useForm } from "react-hook-form";
 
 export default function BoardDetailUI({
