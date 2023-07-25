@@ -12,10 +12,6 @@ import {
   IQueryFetchBoardCommentsArgs,
   IMutationDeleteBoardCommentArgs,
 } from "../../../../../../commons/types/generated/types";
-import {
-  IBoardCommentListUI,
-  IDeleteCommentValues,
-} from "./BoardCommentList.types";
 
 export default function BoardCommentList() {
   const router = useRouter();
@@ -33,7 +29,7 @@ export default function BoardCommentList() {
   });
 
   const onClickDeleteComment = async (e: FormEvent<HTMLElement>) => {
-    const password: string = prompt("비밀번호를 입력해주세요");
+    const password = prompt("비밀번호를 입력해주세요");
     const res = await deleteBoardComment({
       variables: {
         password,

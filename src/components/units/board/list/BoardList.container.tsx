@@ -9,11 +9,11 @@ import {
 import BoardListUI from "./BoardList.presenter";
 
 export default function BoardList() {
+  const router = useRouter();
   const { data } = useQuery<
     Pick<IQuery, "fetchBoardsOfTheBest" | "fetchBoards">,
     IQueryFetchBoardArgs
   >(FETCH_BOARDS_AND_BOARDS_OF_BEST);
-  const router = useRouter();
 
   const onClickMoveToNew = () => {
     router.push("/boards/new");

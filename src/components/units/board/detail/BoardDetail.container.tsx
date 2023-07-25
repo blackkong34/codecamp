@@ -12,11 +12,12 @@ import BoardDetailUI from "./BoardDetail.presenter";
 
 export default function BoardDetail() {
   const router = useRouter();
+  if (!router || typeof router.query.boardId !== "string") return <></>;
 
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {
-      variables: { boardId: String(router.query.boardId) },
+      variables: { boardId: router.query.boardId },
     }
   );
 
@@ -26,7 +27,6 @@ export default function BoardDetail() {
   >(DELETE_BOARD);
 
   const onClickDeleteBoard = async (e: FormEvent<HTMLElement>) => {
-    console.log(e.target);
     const answer = confirm("삭제하시겠습니까?");
     if (answer === false) {
       e.preventDefault();

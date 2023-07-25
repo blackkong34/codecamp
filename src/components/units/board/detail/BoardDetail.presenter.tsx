@@ -1,14 +1,10 @@
-import * as S from "./BoardDetail.styles";
+import { IBoardDetailUIProps } from "./BoardDetail.types";
 import { getDate } from "../../../../commons/libraries/utils";
-import { useForm } from "react-hook-form";
+import * as S from "./BoardDetail.styles";
 
-export default function BoardDetailUI({
-  data,
-  onClickDeleteBoard,
-  onclickMoveToEdit,
-  onClickMoveToList,
-}) {
-  const { register, handleSubmit } = useForm();
+export default function BoardDetailUI(props: IBoardDetailUIProps) {
+  const { data, onClickDeleteBoard, onclickMoveToEdit, onClickMoveToList } =
+    props;
 
   return (
     <S.BoardDetailWrapper>
