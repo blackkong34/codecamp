@@ -9,10 +9,11 @@ import {
 
 export default function Boards() {
   const router = useRouter();
+  if (!router || typeof router.query.boardId !== "string") return <></>;
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {
-      variables: { boardId: String(router.query.boardId) },
+      variables: { boardId: router.query.boardId },
     }
   );
 

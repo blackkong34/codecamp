@@ -16,15 +16,18 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     mode: "onChange",
     reValidateMode: "onChange",
     shouldFocusError: true,
-    defaultValues: data?.fetchBoard,
+    defaultValues: {
+      writer: data?.fetchBoard.writer ?? "",
+      title: data?.fetchBoard.title ?? "",
+      contents: data?.fetchBoard.contents ?? "",
+    },
   });
   // useMemo(() => {
   //   return data?.fetchBoard;
   // }, [data]),
-  console.log(data);
-  // useEffect(() => {
-  //   reset(data?.fetchBoard);
-  // }, [data?.fetchBoard]);
+  useEffect(() => {
+    reset(data?.fetchBoard);
+  }, [data?.fetchBoard]);
   return (
     <S.Wrapper>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
@@ -37,7 +40,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             <S.User
               type="text"
               placeholder="이름을 입력해주세요."
-              // defaultValue={data?.fetchBoard.writer ?? ""}
               disabled={isEdit}
               {...register("writer")}
             />
@@ -72,7 +74,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.Subject
             type="text"
             placeholder="제목을 작성해주세요."
-            // defaultValue={data?.fetchBoard.title}
             {...register("title", { required: "제목이 입력되지 않았습니다" })}
           />
           {errors.title?.type === "required" && (
@@ -83,7 +84,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.Label>내용</S.Label>
           <S.Content
             placeholder="내용을 작성해주세요."
-            // defaultValue={data?.fetchBoard.contents}
             {...register("contents", {
               required: "내용이 입력되지 않았습니다",
             })}

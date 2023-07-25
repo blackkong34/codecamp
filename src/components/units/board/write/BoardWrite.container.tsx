@@ -81,8 +81,6 @@ export default function Boards(props: IBoardsProps) {
   return (
     <BoardWriteUI
       isEdit={props.isEdit}
-      // isEditValid = {isValidEdit}
-      // handleIsValidEdit = {handleI sValidEdit}
       data={props.data}
       onSubmitCreate={onSubmitCreate}
       onSubmitUpdate={onSubmitUpdate}

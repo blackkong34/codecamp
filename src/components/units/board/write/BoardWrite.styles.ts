@@ -37,7 +37,7 @@ export const InputWrapper = styled.div`
 `;
 
 export const InputWrapper2 = styled.div`
-  width: 90%;
+  width: 486px;
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
