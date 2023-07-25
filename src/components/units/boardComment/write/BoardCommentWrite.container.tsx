@@ -8,17 +8,18 @@ import { useRouter } from "next/router";
 import {
   IMutation,
   IMutationCreateBoardCommentArgs,
-} from "../../../../../../commons/types/generated/types";
+} from "../../../../commons/types/generated/types";
 import { createCommnetValues } from "./BoardCommentWrite.types";
 
 export default function BoardCommentWrite() {
   const router = useRouter();
+  if (!router || typeof router.query.boardId !== "string") return <></>;
+
   const [createBoardComment] = useMutation<
     Pick<IMutation, "createBoardComment">,
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
 
-  if (!router || typeof router.query.boardId !== "string") return <></>;
   const onSubmitComment = async (formData: createCommnetValues) => {
     if (formData) {
       try {

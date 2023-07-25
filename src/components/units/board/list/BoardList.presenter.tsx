@@ -77,14 +77,16 @@ export default function BoardListUI(props: IBoardListUIProps) {
                 .slice(0)
                 .reverse()
                 .map((el) => (
-                  <S.Row key={el._id}>
+                  <S.RowBody
+                    key={el._id}
+                    id={el._id}
+                    onClick={onClickMoveToDetail}
+                  >
                     <S.Column>{el._id.slice(-4).toUpperCase()}</S.Column>
-                    <S.ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
-                      {el.title}
-                    </S.ColumnTitle>
+                    <S.ColumnTitle>{el.title}</S.ColumnTitle>
                     <S.Column>{el.writer}</S.Column>
                     <S.Column>{getDate(el.createdAt)}</S.Column>
-                  </S.Row>
+                  </S.RowBody>
                 ))}
             </tbody>
           </S.BodyTable>

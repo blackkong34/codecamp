@@ -215,6 +215,12 @@ export const Row = styled.tr`
   padding: 11px 0;
   height: 52px;
 `;
+export const RowBody = styled(Row)`
+  cursor: pointer;
+  &:hover {
+    background: #eee;
+  }
+`;
 export const HeaderBasic = styled.th`
   width: 15%;
   font-size: 18px;
@@ -231,10 +237,10 @@ export const Column = styled.td`
   border-right: none;
 `;
 export const ColumnTitle = styled(Column)`
-  cursor: pointer;
+  /* cursor: pointer;
   &:hover {
     text-decoration: underline;
-  }
+  } */
 `;
 export const Footer = styled.div`
   display: flex;

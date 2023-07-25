@@ -1,9 +1,5 @@
 import styled from "@emotion/styled";
 
-export const ItemsWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-`;
 export const ItemWrapper = styled.ul`
   width: 1200px;
 `;

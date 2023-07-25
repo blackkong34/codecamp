@@ -20,7 +20,9 @@ export default function Boards(props: IBoardsProps) {
     IMutationUpdateBoardArgs
   >(UPDATE_BOARD);
 
-  const onSubmitCreate = async (formData: Required<FormValues>) => {
+  const onSubmitCreate = async (
+    formData: Required<FormValues>,
+  ): Promise<void> => {
     if (formData) {
       try {
         const result = await createBoard({
@@ -40,13 +42,13 @@ export default function Boards(props: IBoardsProps) {
     }
   };
 
-  const onClickMoveToBack = (e: FormEvent<HTMLElement>) => {
+  const onClickMoveToBack = (e: FormEvent<HTMLElement>): void => {
     confirm("게시글 수정을 취소하시겠습까?")
       ? router.back()
       : e.preventDefault();
   };
 
-  const onSubmitUpdate = async (formData: FormValues) => {
+  const onSubmitUpdate = async (formData: FormValues): Promise<void> => {
     if (!formData.title && !formData.contents) {
       alert("수정할 내용이 없습니다.");
       return;

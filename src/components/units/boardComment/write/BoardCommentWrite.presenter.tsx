@@ -1,11 +1,10 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as S from "./BoardCommentWrite.styles";
-import { kMaxLength } from "buffer";
 
 export default function BoardCommentWriteUI(props) {
   const { onSubmitComment } = props;
   const { register, handleSubmit, watch } = useForm();
-
+  console.log(data);
   const { contents } = watch();
   return (
     <S.Wrapper>
