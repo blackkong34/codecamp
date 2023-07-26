@@ -1,17 +1,17 @@
 import { useMutation } from "@apollo/client";
-import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
+import { useRouter } from "next/router";
 import {
   CREATE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
 } from "./BoardCommentWrite.queries";
-import { useRouter } from "next/router";
 import {
   IMutation,
   IMutationCreateBoardCommentArgs,
+  ICreateBoardCommentInput,
 } from "../../../../commons/types/generated/types";
-import { createCommnetValues } from "./BoardCommentWrite.types";
+import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
 
-export default function BoardCommentWrite() {
+export default function BoardCommentWrite(): JSX.Element {
   const router = useRouter();
   if (!router || typeof router.query.boardId !== "string") return <></>;
 
@@ -20,7 +20,7 @@ export default function BoardCommentWrite() {
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
 
-  const onSubmitComment = async (formData: createCommnetValues) => {
+  const onSubmitComment = async (formData: ICreateBoardCommentInput) => {
     if (formData) {
       try {
         const result = await createBoardComment({

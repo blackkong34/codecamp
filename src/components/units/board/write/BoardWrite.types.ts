@@ -1,5 +1,6 @@
 import { IQuery } from "../../../../commons/types/generated/types";
 import { FormEvent } from "react";
+
 export interface IBoardsProps {
   isEdit: boolean;
   data?: Pick<IQuery, "fetchBoard">;

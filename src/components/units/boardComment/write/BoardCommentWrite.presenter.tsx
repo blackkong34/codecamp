@@ -1,11 +1,29 @@
 import { useForm } from "react-hook-form";
+import { ICreateBoardCommentInput } from "../../../../commons/types/generated/types";
 import * as S from "./BoardCommentWrite.styles";
+import { BoardCommentWriteUIProps } from "./BoardCommentWrite.types";
+import { useEffect } from "react";
 
-export default function BoardCommentWriteUI(props) {
+export default function BoardCommentWriteUI(
+  props: BoardCommentWriteUIProps,
+): JSX.Element {
   const { onSubmitComment } = props;
-  const { register, handleSubmit, watch } = useForm();
-  console.log(data);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    watch,
+    reset,
+  } = useForm<ICreateBoardCommentInput>({
+    defaultValues: { writer: "", password: "", contents: "" },
+  });
   const { contents } = watch();
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [reset, isSubmitSuccessful]);
+
   return (
     <S.Wrapper>
       <S.Header>
@@ -26,7 +44,6 @@ export default function BoardCommentWriteUI(props) {
             {...register("password", { required: "비밀번호를 입력해주세요." })}
           />
           <S.StarWrapper type="number" {...register("rating")} />
-          <S.Star>★★★★★</S.Star>
         </S.BodyTop>
         <S.BodyMiddle>
           <S.InputTextarea

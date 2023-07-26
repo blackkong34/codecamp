@@ -8,7 +8,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     props;
   const {
     register,
-    watch,
     reset,
     formState: { errors, isValid, dirtyFields },
     handleSubmit,

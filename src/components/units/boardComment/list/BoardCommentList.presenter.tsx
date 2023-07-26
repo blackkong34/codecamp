@@ -1,11 +1,9 @@
 import * as S from "./BoardCommentList.styles";
 import { getDate } from "../../../../commons/libraries/utils";
 import { IBoardCommentListUI } from "./BoardCommentList.types";
-import StarRate from "../../../../commons/libraries/starRate";
 
 export default function BoardCommentListUI(props: IBoardCommentListUI) {
   const { data, onClickDeleteComment } = props;
-
   return (
     <S.ItemWrapper>
       {data?.fetchBoardComments?.map((el) => (
@@ -14,7 +12,6 @@ export default function BoardCommentListUI(props: IBoardCommentListUI) {
           <S.ItemMain>
             <S.WriterBox>
               <S.Writer>{el.writer}</S.Writer>
-              {/* //       <StarRate /> */}
             </S.WriterBox>
             <S.Contents>{el.contents} </S.Contents>
             <S.Date>작성일자 : {getDate(el.createdAt)}</S.Date>

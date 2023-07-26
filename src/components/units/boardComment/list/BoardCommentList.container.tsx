@@ -31,7 +31,9 @@ export default function BoardCommentList() {
     IMutationDeleteBoardCommentArgs
   >(DELETE_BOARD_COMMENT);
 
-  const onClickDeleteComment = async (e: FormEvent<HTMLElement>) => {
+  const onClickDeleteComment = async (
+    e: FormEvent<HTMLElement>,
+  ): Promise<void> => {
     const password = prompt("비밀번호를 입력해주세요");
     try {
       const res = await deleteBoardComment({
