@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Rate } from "antd";
 
 export const ItemWrapper = styled.ul`
   width: 1200px;
@@ -20,23 +21,19 @@ export const ItemMain = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
 `;
-// export const Rate = styled.div`;
-//   display: flex;
-//   justify-content: conter;
-//   align-items: center;
-//   width: 100%;
-// `;
-// export const StarIcon = styled.span`
-//   display: inline-flex;
-//   margin-right: 5px;
-// `;
 export const WriterBox = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 4px;
 `;
 export const Writer = styled.span`
   font-weight: 500;
-  padding-right: 16px;
-  padding-bottom: 4px;
+  white-space: nowrap;
+`;
+export const StarRate = styled(Rate)`
+  padding-bottom: 5px;
 `;
 export const Contents = styled.span`
   color: #4f4f4f;

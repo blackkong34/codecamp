@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Rate } from "antd";
 
 export const Wrapper = styled.section`
   display: flex;
@@ -39,21 +40,9 @@ export const InputText = styled.input`
   border: 1px solid #bdbdbd;
   font-size: 16px;
 `;
-export const StarWrapper = styled.input`
+export const Star = styled(Rate)`
   display: inline-block;
-  position: relative;
-  font-size: 24px;
-  color: #bdbdbd;
-  padding-bottom: 6px;
-`;
-export const Star = styled.span`
-  width: 0;
-  position: absolute;
-  left: 0;
-  color: red;
-  overflow: hidden;
-  pointer-events: none;
-  cursor: pointer;
+  padding-bottom: 10px;
 `;
 export const BodyMiddle = styled.div`
   width: 1200px;

@@ -13,14 +13,16 @@ import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
 
 export default function BoardCommentWrite(): JSX.Element {
   const router = useRouter();
-  if (!router || typeof router.query.boardId !== "string") return <></>;
 
   const [createBoardComment] = useMutation<
     Pick<IMutation, "createBoardComment">,
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
 
-  const onSubmitComment = async (formData: ICreateBoardCommentInput) => {
+  if (!router || typeof router.query.boardId !== "string") return <></>;
+  const onSubmitComment = async (
+    formData: Required<ICreateBoardCommentInput>,
+  ) => {
     if (formData) {
       try {
         const result = await createBoardComment({

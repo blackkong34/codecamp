@@ -1,9 +1,10 @@
 import * as S from "./BoardCommentList.styles";
 import { getDate } from "../../../../commons/libraries/utils";
-import { IBoardCommentListUI } from "./BoardCommentList.types";
+import { IBoardCommentListUIProps } from "./BoardCommentList.types";
 
-export default function BoardCommentListUI(props: IBoardCommentListUI) {
+export default function BoardCommentListUI(props: IBoardCommentListUIProps) {
   const { data, onClickDeleteComment } = props;
+  console.log(data?.fetchBoardComments);
   return (
     <S.ItemWrapper>
       {data?.fetchBoardComments?.map((el) => (
@@ -12,9 +13,14 @@ export default function BoardCommentListUI(props: IBoardCommentListUI) {
           <S.ItemMain>
             <S.WriterBox>
               <S.Writer>{el.writer}</S.Writer>
+              <S.StarRate value={el.rating} disabled />
             </S.WriterBox>
             <S.Contents>{el.contents} </S.Contents>
-            <S.Date>작성일자 : {getDate(el.createdAt)}</S.Date>
+            <S.Date>
+              {el.updatedAt
+                ? `작성일자 : ${getDate(el.createdAt)}`
+                : `수정일자 : ${getDate(el.updatedAt)}`}
+            </S.Date>
           </S.ItemMain>
           <S.IconsBox>
             <S.Icon src="/assets/icons/pencil.png" />

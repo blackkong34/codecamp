@@ -7,14 +7,14 @@ import {
   IQueryFetchBoardArgs,
 } from "../../../../src/commons/types/generated/types";
 
-export default function Boards() {
+export default function Boards(): JSX.Element {
   const router = useRouter();
-  if (!router || typeof router.query.boardId !== "string") return <></>;
+  // if (!router || typeof router.query.boardId !== "string") return <></>;
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
-    FETCH_BOARD,
+    router && FETCH_BOARD,
     {
-      variables: { boardId: router.query.boardId },
-    }
+      variables: { boardId: "" + router.query.boardId },
+    },
   );
 
   return <BoardWrite isEdit={true} data={data} />;

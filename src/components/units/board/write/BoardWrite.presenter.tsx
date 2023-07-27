@@ -26,7 +26,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
   // }, [data]),
   useEffect(() => {
     reset(data?.fetchBoard);
-  }, [data?.fetchBoard]);
+  }, [data?.fetchBoard, reset]);
   return (
     <S.Wrapper>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
