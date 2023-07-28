@@ -4,7 +4,6 @@ import { IBoardCommentListUIProps } from "./BoardCommentList.types";
 
 export default function BoardCommentListUI(props: IBoardCommentListUIProps) {
   const { data, onClickDeleteComment } = props;
-  console.log(data?.fetchBoardComments);
   return (
     <S.ItemWrapper>
       {data?.fetchBoardComments?.map((el) => (

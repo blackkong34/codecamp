@@ -149,6 +149,7 @@ export const BtnWrapper = styled.div`
   align-items: center;
   gap: 24px;
 `;
+
 export const CancealBtn = styled.button`
   padding: 14px 60px;
   background: #bdbdbd;

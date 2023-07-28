@@ -1,17 +1,27 @@
 import * as S from "./BoardWrite.styles";
 import { useForm } from "react-hook-form";
 import { FormValues, IBoardWriteUIProps } from "./BoardWrite.types";
-import { useEffect, useMemo } from "react";
-
+import { useEffect, useMemo, useState } from "react";
+import { ICreateBoardInput } from "../../../../commons/types/generated/types";
+import Modal from "../../../../commons/libraries/Modal/modal";
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
-  const { isEdit, data, onSubmitCreate, onSubmitUpdate, onClickMoveToBack } =
-    props;
+  const {
+    isEdit,
+    data,
+    onSubmitCreate,
+    onSubmitUpdate,
+    onClickMoveToBack,
+    errMsg,
+    showModal,
+    getValue,
+    onClickClose,
+  } = props;
   const {
     register,
     reset,
     formState: { errors, isValid, dirtyFields },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<ICreateBoardInput>({
     mode: "onChange",
     reValidateMode: "onChange",
     shouldFocusError: true,
@@ -19,6 +29,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
       writer: data?.fetchBoard.writer ?? "",
       title: data?.fetchBoard.title ?? "",
       contents: data?.fetchBoard.contents ?? "",
+      youtubeUrl: data?.fetchBoard.youtubeUrl ?? "",
     },
   });
   // useMemo(() => {
@@ -27,11 +38,15 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
   useEffect(() => {
     reset(data?.fetchBoard);
   }, [data?.fetchBoard, reset]);
+
   return (
     <S.Wrapper>
+      <Modal isOpen={showModal} getValue={getValue} onClose={onClickClose}>
+        {errMsg}
+      </Modal>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
       <S.WriteWrapper
-        onSubmit={handleSubmit(isEdit ? onSubmitUpdate : onSubmitCreate)}
+        onSubmit={handleSubmit(isEdit ? onSubmitUpdate! : onSubmitCreate!)}
       >
         <S.UserWrapper>
           <S.InputWrapper2>
@@ -42,6 +57,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               disabled={isEdit}
               {...register("writer")}
             />
+            {errors.writer && <S.Error>{errors?.writer.message}</S.Error>}
           </S.InputWrapper2>
           <S.InputWrapper2>
             <S.Label>비밀번호</S.Label>

@@ -18,11 +18,11 @@ const schema = yup.object().shape({
 export default function BoardCommentWriteUI(
   props: IBoardCommentWriteUIProps,
 ): JSX.Element {
-  const { onSubmitComment, isWrite } = props;
+  const { onSubmitComment } = props;
   const {
     handleSubmit,
     control,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors },
     watch,
     reset,
   } = useForm<Required<ICreateBoardCommentInput>>({
@@ -44,32 +44,42 @@ export default function BoardCommentWriteUI(
       </S.Header>
       <S.Body onSubmit={handleSubmit(onSubmitComment)}>
         <S.BodyTop>
-          <Controller
-            name="writer"
-            control={control}
-            render={({ field }) => (
-              <S.InputText {...field} type="text" placeholder="작성자" />
-            )}
-          />
-          <Controller
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <S.InputText
-                {...field}
-                type="password"
-                placeholder="비밀번호"
-                autoComplete="none"
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="rating"
-            render={({ field }) => <S.Star {...field} />}
-          />
+          <S.InputWrapper>
+            <Controller
+              name="writer"
+              control={control}
+              render={({ field }) => (
+                <S.InputText {...field} type="text" placeholder="작성자" />
+              )}
+            />
+            {errors?.writer && <S.Error>{errors.writer.message}</S.Error>}
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <S.InputText
+                  {...field}
+                  type="password"
+                  placeholder="비밀번호"
+                  autoComplete="none"
+                />
+              )}
+            />
+            {errors?.password && <S.Error>{errors.password.message}</S.Error>}
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <Controller
+              control={control}
+              name="rating"
+              render={({ field }) => <S.Star {...field} />}
+            />
+            {errors?.rating && <S.Error>{errors.rating.message}</S.Error>}
+          </S.InputWrapper>
         </S.BodyTop>
         <S.BodyMiddle>
+          {/* <S.InputWrapper> */}
           <Controller
             control={control}
             name="contents"
@@ -88,11 +98,13 @@ export default function BoardCommentWriteUI(
               />
             )}
           />
-          <S.BodyBottom>
+          {/* </S.InputWrapper> */}
+          <S.BtnWrapper>
             <S.Count>{contents?.length}/100</S.Count>
             <S.SubmitBtn type="submit">등록하기</S.SubmitBtn>
-          </S.BodyBottom>
+          </S.BtnWrapper>
         </S.BodyMiddle>
+        {errors?.contents && <S.Error>{errors.contents.message}</S.Error>}
       </S.Body>
     </S.Wrapper>
   );

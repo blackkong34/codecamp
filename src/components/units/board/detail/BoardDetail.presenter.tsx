@@ -1,11 +1,18 @@
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 import { getDate } from "../../../../commons/libraries/utils";
+import { Tooltip } from "antd";
 import * as S from "./BoardDetail.styles";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
-  const { data, onClickDeleteBoard, onclickMoveToEdit, onClickMoveToList } =
-    props;
-
+  const {
+    data,
+    onClickDeleteBoard,
+    onclickMoveToEdit,
+    onClickMoveToList,
+    onClickLike,
+    onClickDislike,
+  } = props;
+  console.log(data);
   return (
     <S.BoardDetailWrapper>
       <S.CardWrapper>
@@ -23,27 +30,43 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           </S.AvatarWrapper>
           <div>
             <S.HeaderIcon src="/assets/icons/link.png" />
-            <S.HeaderIcon src="/assets/icons/location.png" />
+            <Tooltip
+              title={
+                `${data?.fetchBoard.boardAddress?.address} ${data?.fetchBoard.boardAddress?.addressDetail}` ??
+                "주소가 없습니다."
+              }
+            >
+              <S.HeaderIcon src="/assets/icons/location.png" />
+            </Tooltip>
           </div>
         </S.Header>
         <S.Body>
           <S.BoardTitle>{data?.fetchBoard?.title}</S.BoardTitle>
           <S.ImageBox></S.ImageBox>
           <S.Content>{data?.fetchBoard?.contents}</S.Content>
+          {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/L5No7rhWM-I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
           <S.VideoBox>
-            <S.Video>
-              <S.PlayIcon src="/assets/icons/play.png"></S.PlayIcon>
+            <S.Video
+              // src={data?.fetchBoard.}
+              title="YouTube video player"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
+            >
+              {/* <S.PlayIcon src="/assets/icons/play.png"></S.PlayIcon> */}
             </S.Video>
           </S.VideoBox>
         </S.Body>
         <S.Bottom>
           <S.IconBox>
-            <S.Icon src="/assets/icons/thumb_up.png" />
-            <S.Like>1920</S.Like>
+            <S.LikeBtn type="button" onClick={onClickLike}>
+              <S.LikeIcon src="/assets/icons/thumb_up.png" />
+              <S.Like>{data?.fetchBoard.likeCount}</S.Like>
+            </S.LikeBtn>
           </S.IconBox>
           <S.IconBox>
-            <S.Icon src="/assets/icons/thumb_down.png" />
-            <S.Dislike>1920</S.Dislike>
+            <S.DislikeBtn type="button" onClick={onClickDislike}>
+              <S.DislikeIcon src="/assets/icons/thumb_down.png" />
+              <S.Dislike>{data?.fetchBoard.dislikeCount}</S.Dislike>
+            </S.DislikeBtn>
           </S.IconBox>
         </S.Bottom>
       </S.CardWrapper>

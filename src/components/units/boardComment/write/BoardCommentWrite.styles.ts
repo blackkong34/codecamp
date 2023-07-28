@@ -6,31 +6,40 @@ export const Wrapper = styled.section`
   flex-direction: column;
   justify-content: center;
 `;
+
 export const Header = styled.div`
   margin: 40px 0;
   display: flex;
   align-items: center;
 `;
+
 export const Icon = styled.img`
   width: 24px;
   height: 24px;
 `;
+
 export const Title = styled.span`
   font-size: 18px;
   font-weight: 500;
   margin-left: 12px;
 `;
+
 export const Body = styled.form`
   display: flex;
   flex-direction: column;
 `;
+
 export const BodyTop = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 24px;
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+`;
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 14px;
 `;
 export const InputText = styled.input`
   width: 180px;
@@ -40,17 +49,18 @@ export const InputText = styled.input`
   border: 1px solid #bdbdbd;
   font-size: 16px;
 `;
+
 export const Star = styled(Rate)`
-  display: inline-block;
-  padding-bottom: 10px;
+  padding-top: 8px;
 `;
+
 export const BodyMiddle = styled.div`
   width: 1200px;
   height: 161px;
   border: 1px solid #bdbdbd;
-  margin-bottom: 40px;
   position: relative;
 `;
+
 export const InputTextarea = styled.textarea`
   width: 100%;
   height: 67%;
@@ -64,7 +74,7 @@ export const InputTextarea = styled.textarea`
   }
 `;
 
-export const BodyBottom = styled.div`
+export const BtnWrapper = styled.div`
   width: 100%;
   height: 33%;
   display: flex;
@@ -83,7 +93,7 @@ export const Count = styled.span`
 `;
 
 export const SubmitBtn = styled.button`
-  width: 95=7px;
+  width: 97px;
   height: 100%;
   padding: 14px 16px;
   background: #000;
@@ -92,4 +102,8 @@ export const SubmitBtn = styled.button`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+`;
+export const Error = styled.span`
+  font-size: 14px;
+  color: red;
 `;

@@ -1,32 +1,78 @@
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
 import { FormEvent } from "react";
-import { FETCH_BOARD, DELETE_BOARD } from "./BoardDetail.queries";
+import {
+  FETCH_BOARD,
+  DELETE_BOARD,
+  LIKE_BOARD,
+  DISLIKE_BOARD,
+} from "./BoardDetail.queries";
 import {
   IQuery,
   IQueryFetchBoardArgs,
   IMutation,
   IMutationDeleteBoardArgs,
+  IMutationLikeBoardArgs,
+  IMutationDislikeBoardArgs,
 } from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
 
 export default function BoardDetail() {
   const router = useRouter();
-  if (!router || typeof router.query.boardId !== "string") return <></>;
+  // if (!router || typeof router.query.boardId !== "string") return <></>;
+  const BOARD_ID = String(router.query.boardId);
 
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {
-      variables: { boardId: router.query.boardId },
-    }
+      variables: { boardId: BOARD_ID },
+    },
   );
+
+  const [likeBoard] = useMutation<
+    Pick<IMutation, "likeBoard">,
+    IMutationLikeBoardArgs
+  >(LIKE_BOARD);
+
+  const [dislikeBoard] = useMutation<
+    Pick<IMutation, "dislikeBoard">,
+    IMutationDislikeBoardArgs
+  >(DISLIKE_BOARD);
 
   const [deleteBoard] = useMutation<
     Pick<IMutation, "deleteBoard">,
     IMutationDeleteBoardArgs
   >(DELETE_BOARD);
 
-  const onClickDeleteBoard = async (e: FormEvent<HTMLElement>) => {
+  const onClickLike = async (): Promise<void> => {
+    const result = await likeBoard({
+      variables: { boardId: BOARD_ID },
+      refetchQueries: [
+        {
+          query: FETCH_BOARD,
+          variables: {
+            boardId: BOARD_ID,
+          },
+        },
+      ],
+    });
+  };
+  const onClickDislike = async (): Promise<void> => {
+    const result = await dislikeBoard({
+      variables: { boardId: BOARD_ID },
+      refetchQueries: [
+        {
+          query: FETCH_BOARD,
+          variables: {
+            boardId: BOARD_ID,
+          },
+        },
+      ],
+    });
+  };
+  const onClickDeleteBoard = async (
+    e: FormEvent<HTMLElement>,
+  ): Promise<void> => {
     const answer = confirm("삭제하시겠습니까?");
     if (answer === false) {
       e.preventDefault();
@@ -45,11 +91,11 @@ export default function BoardDetail() {
     }
   };
 
-  const onclickMoveToEdit = () => {
+  const onclickMoveToEdit = (): void => {
     router.push(`/boards/${router.query.boardId}/edit`);
   };
 
-  const onClickMoveToList = () => {
+  const onClickMoveToList = (): void => {
     router.push("/boards");
   };
 
@@ -60,6 +106,8 @@ export default function BoardDetail() {
         onClickDeleteBoard={onClickDeleteBoard}
         onclickMoveToEdit={onclickMoveToEdit}
         onClickMoveToList={onClickMoveToList}
+        onClickLike={onClickLike}
+        onClickDislike={onClickDislike}
       />
     </>
   );

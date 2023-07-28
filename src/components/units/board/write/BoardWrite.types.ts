@@ -1,5 +1,8 @@
-import { IQuery } from "../../../../commons/types/generated/types";
-import { FormEvent } from "react";
+import {
+  IQuery,
+  ICreateBoardInput,
+} from "../../../../commons/types/generated/types";
+import { FormEvent, MouseEvent } from "react";
 
 export interface IBoardsProps {
   isEdit: boolean;
@@ -14,7 +17,11 @@ export type FormValues = {
 };
 
 export interface IBoardWriteUIProps extends IBoardsProps {
-  onSubmitCreate?: (formData: Required<FormValues>) => void;
-  onSubmitUpdate?: (formData: FormValues) => void;
+  onSubmitCreate?: (formData: ICreateBoardInput) => void;
+  onSubmitUpdate?: (formData: ICreateBoardInput) => void;
   onClickMoveToBack?: (e: FormEvent<HTMLElement>) => void;
+  errMsg: string;
+  showModal: boolean;
+  onClickClose: () => void;
+  getValue: (value: string) => void;
 }

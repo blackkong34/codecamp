@@ -3,6 +3,7 @@ import { Rate } from "antd";
 
 export const ItemWrapper = styled.ul`
   width: 1200px;
+  margin-top: 40px;
 `;
 export const Item = styled.li`
   display: flex;

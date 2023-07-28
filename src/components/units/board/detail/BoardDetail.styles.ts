@@ -1,4 +1,23 @@
+import { keyframes, css } from "@emotion/react";
 import styled from "@emotion/styled";
+
+const bounce = keyframes`
+ from, 53%, 80%, to {
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    transform: translate3d(0, -25px, 0);
+  }
+
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-10px,0);
+  }
+`;
 
 export const BoardDetailWrapper = styled.article`
   width: 1200px;
@@ -51,10 +70,6 @@ export const CreatedAt = styled.span`
   color: #828282;
 `;
 
-// export const HeaderIcons = styled.div`
-
-// `
-
 export const HeaderIcon = styled.img`
   width: 32px;
   height: 32px;
@@ -64,6 +79,9 @@ export const HeaderIcon = styled.img`
 export const Body = styled.div`
   width: 100%;
   margin-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const BoardTitle = styled.h1`
@@ -78,64 +96,79 @@ export const ImageBox = styled.div`
   background: #f2f2f2;
   margin-bottom: 40px;
 `;
+
 export const Content = styled.div`
   width: 100%;
   margin-bottom: 120px;
 `;
+
 export const VideoBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   margin-bottom: 120px;
 `;
-export const Video = styled.div`
+
+export const Video = styled.iframe`
+  display: block;
   width: 486px;
   height: 240px;
-  background: url("/assets/images/video.png");
-  background-size: cover;
-  background-position: center;
-  position: relative;
+  margin: 0 auto;
+  /* background: url("/assets/images/video.png"); */
+  /* background-size: cover; */
+  /* background-position: center; */
+  /* position: relative; */
 `;
 
-export const PlayIcon = styled.img`
-  width: 48px;
-  height: 48px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+// export const PlayIcon = styled.img`
+//   width: 48px;
+//   height: 48px;
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// `;
 
 export const Bottom = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
 `;
 
 export const IconBox = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 40px;
   height: 51px;
-  margin-left: 20px;
 `;
 
-export const Icon = styled.img`
-  width: 24px;
-  height: 24px;
+export const LikeBtn = styled.button`
+  width: inherit;
+  height: inherit;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover > img {
+    animation: ${bounce} 0.5s linear 1;
+  }
 `;
+
+export const DislikeBtn = styled(LikeBtn)``;
+
+export const LikeIcon = styled.img`
+  transition: all 0.2s ease-in-out;
+  width: 36px;
+  height: 36px;
+`;
+export const DislikeIcon = styled(LikeIcon)``;
 
 export const Like = styled.span`
   color: #ffd600;
   font-size: 18px;
 `;
 
-export const Dislike = styled.span`
+export const Dislike = styled(Like)`
   color: #828282;
-  font-size: 18px;
+  text-align: center;
 `;
 
 export const BtnWrapper = styled.div`
@@ -156,7 +189,7 @@ export const Btn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #000;
-    color: #fff;
+    background: #ffd600;
+    border: 1px solid #ffd600;
   }
 `;
