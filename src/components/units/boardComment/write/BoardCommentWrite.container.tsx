@@ -9,6 +9,7 @@ import {
   IMutationCreateBoardCommentArgs,
   ICreateBoardCommentInput,
 } from "../../../../commons/types/generated/types";
+import { IFormValue } from "./BoardCommentWrite.types";
 import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
 
 export default function BoardCommentWrite(): JSX.Element {
@@ -20,9 +21,7 @@ export default function BoardCommentWrite(): JSX.Element {
   >(CREATE_BOARD_COMMENT);
 
   if (!router || typeof router.query.boardId !== "string") return <></>;
-  const onSubmitComment = async (
-    formData: Required<ICreateBoardCommentInput>,
-  ) => {
+  const onSubmitComment = async (formData: IFormValue) => {
     if (formData) {
       try {
         const result = await createBoardComment({

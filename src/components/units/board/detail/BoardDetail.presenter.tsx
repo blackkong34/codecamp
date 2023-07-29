@@ -1,13 +1,8 @@
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 import { getDate } from "../../../../commons/libraries/utils";
-// import YouTube, { YouTubeProps } from "react-youtube";
 import { Tooltip } from "antd";
 import Youtube from "../../../../commons/libraries/YouTube";
 import * as S from "./BoardDetail.styles";
-
-export interface IYoutube {
-  videoId: { videoId: string };
-}
 
 export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
   const {

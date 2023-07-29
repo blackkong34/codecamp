@@ -1,5 +1,9 @@
 import YouTube, { YouTubeProps } from "react-youtube";
-import { IYoutube } from "../../components/units/board/detail/BoardDetail.presenter";
+// import { IYoutube } from "../../components/units/board/detail/BoardDetail.presenter";
+
+export interface IYoutube {
+  videoId: { videoId: string };
+}
 
 export default function Youtube(props: IYoutube["videoId"]) {
   const onPlayerReady: YouTubeProps["onReady"] = (e) => {

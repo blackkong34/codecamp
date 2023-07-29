@@ -36,7 +36,7 @@ export const BodyTop = styled.div`
   gap: 24px;
   padding-bottom: 20px;
 `;
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.section`
   display: flex;
   flex-direction: column;
   padding-bottom: 14px;

@@ -60,12 +60,12 @@ export default function BoardDetail() {
   };
   const onClickDislike = async (): Promise<void> => {
     const result = await dislikeBoard({
-      variables: { boardId: BOARD_ID },
+      variables: { boardId },
       refetchQueries: [
         {
           query: FETCH_BOARD,
           variables: {
-            boardId: BOARD_ID,
+            boardId,
           },
         },
       ],

@@ -1,9 +1,10 @@
 import * as S from "./BoardWrite.styles";
 import { useForm } from "react-hook-form";
-import { FormValues, IBoardWriteUIProps } from "./BoardWrite.types";
+import { IBoardWriteUIProps } from "./BoardWrite.types";
 import { useEffect, useMemo, useState } from "react";
 import { ICreateBoardInput } from "../../../../commons/types/generated/types";
 import Modal from "../../../../commons/libraries/Modal/modal";
+import { Tooltip } from "@material-ui/core";
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const {
     isEdit,
@@ -154,19 +155,21 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               취소하기
             </S.CancealBtn>
           )}
-          <S.SubmitBtn
-            type="submit"
-            disabled={
-              isEdit
-                ? !(
-                    (dirtyFields.password && dirtyFields.contents) ||
-                    (dirtyFields.password && dirtyFields.title)
-                  )
-                : !isValid
-            }
-          >
-            {isEdit ? "수정하기" : "등록하기"}
-          </S.SubmitBtn>
+          <Tooltip title="You don't have permission to do this">
+            <S.SubmitBtn
+              type="submit"
+              disabled={
+                isEdit
+                  ? !(
+                      (dirtyFields.password && dirtyFields.contents) ||
+                      (dirtyFields.password && dirtyFields.title)
+                    )
+                  : !isValid
+              }
+            >
+              {isEdit ? "수정하기" : "등록하기"}
+            </S.SubmitBtn>
+          </Tooltip>
         </S.BtnWrapper>
       </S.WriteWrapper>
     </S.Wrapper>

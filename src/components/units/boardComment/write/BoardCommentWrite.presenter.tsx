@@ -1,10 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { IBoardCommentWriteUIProps } from "./BoardCommentWrite.types";
+import {
+  IBoardCommentWriteUIProps,
+  IFormValue,
+} from "./BoardCommentWrite.types";
 import { ICreateBoardCommentInput } from "../../../../commons/types/generated/types";
 import * as S from "./BoardCommentWrite.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+interface IFormValue {
+  writer: string;
+  password: string;
+  contents: string;
+  rating: number;
+}
 
 const schema = yup.object().shape({
   writer: yup.string().required("작성자를 입력해주세요"),
@@ -25,11 +35,12 @@ export default function BoardCommentWriteUI(
     formState: { isSubmitSuccessful, errors },
     watch,
     reset,
-  } = useForm<Required<ICreateBoardCommentInput>>({
+  } = useForm<IFormValue>({
     resolver: yupResolver(schema),
-    defaultValues: { writer: "", password: "", contents: "" },
+    defaultValues: { writer: "", password: "", contents: "", rating: 0 },
   });
 
+  const InputRef = useRef();
   const { contents } = watch();
 
   useEffect(() => {
@@ -88,13 +99,6 @@ export default function BoardCommentWriteUI(
                 {...field}
                 wrap="on"
                 placeholder="개인정보를 공유 및 요청하거나 명예훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며 이에 대한 민형사상 책임은 게시자에게 있습니다."
-                // {...register("contents", {
-                //   required: "댓글 내용을 입력해주세요",
-                //   maxLength: {
-                //     value: 100,
-                //     message: "댓글은 100자를 초과할 수 없습니다.",
-                //   },
-                // })}
               />
             )}
           />
