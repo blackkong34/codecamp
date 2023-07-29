@@ -105,27 +105,10 @@ export const Content = styled.div`
 export const VideoBox = styled.div`
   width: 100%;
   margin-bottom: 120px;
-`;
-
-export const Video = styled.iframe`
   display: block;
   width: 486px;
-  height: 240px;
   margin: 0 auto;
-  /* background: url("/assets/images/video.png"); */
-  /* background-size: cover; */
-  /* background-position: center; */
-  /* position: relative; */
 `;
-
-// export const PlayIcon = styled.img`
-//   width: 48px;
-//   height: 48px;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// `;
 
 export const Bottom = styled.div`
   display: flex;

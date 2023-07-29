@@ -19,13 +19,14 @@ import BoardDetailUI from "./BoardDetail.presenter";
 
 export default function BoardDetail() {
   const router = useRouter();
-  // if (!router || typeof router.query.boardId !== "string") return <></>;
-  const BOARD_ID = String(router.query.boardId);
+  const boardId =
+    typeof router.query.boardId === "string" ? router.query.boardId : "";
 
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {
-      variables: { boardId: BOARD_ID },
+      variables: { boardId },
+      skip: boardId === "",
     },
   );
 
@@ -46,12 +47,12 @@ export default function BoardDetail() {
 
   const onClickLike = async (): Promise<void> => {
     const result = await likeBoard({
-      variables: { boardId: BOARD_ID },
+      variables: { boardId },
       refetchQueries: [
         {
           query: FETCH_BOARD,
           variables: {
-            boardId: BOARD_ID,
+            boardId,
           },
         },
       ],

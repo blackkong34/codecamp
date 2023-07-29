@@ -29,9 +29,11 @@ export default function Boards(props: IBoardsProps) {
 
   const getValue = (value: string) => {
     setValue(value);
+    console.log(value);
   };
+
   const onClickClose = () => {
-    if (value === "cancel") setShowModal(false);
+    if (value === "cancel") setShowModal((prev) => !prev);
   };
 
   const onSubmitCreate = async (formData: ICreateBoardInput): Promise<void> => {
@@ -54,10 +56,14 @@ export default function Boards(props: IBoardsProps) {
     }
   };
 
-  const onClickMoveToBack = (e: FormEvent<HTMLElement>): void => {
-    confirm("게시글 수정을 취소하시겠습까?")
-      ? router.back()
-      : e.preventDefault();
+  const onClickMoveToBack = (
+    e: FormEvent<HTMLElement>,
+    value: string,
+  ): void => {
+    setShowModal((prev) => !prev);
+    setErrMsg("게시글 수정을 취소하시겠습까?");
+    if (value === "confirm") router.push("/boards/");
+    if (value === "cancel") e.preventDefault();
   };
 
   const onSubmitUpdate = async (formData: ICreateBoardInput): Promise<void> => {

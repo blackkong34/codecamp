@@ -17,10 +17,8 @@ export default function Modal({
 
   const handleClose = (e: MouseEvent<HTMLButtonElement>): void => {
     getValue(e.currentTarget.value);
-    if (e.currentTarget.value === "cancel") {
-      e.preventDefault();
-      onClose();
-    }
+    // e.preventDefault();
+    // onClose();
   };
 
   return (

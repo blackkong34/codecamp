@@ -1,9 +1,15 @@
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 import { getDate } from "../../../../commons/libraries/utils";
+// import YouTube, { YouTubeProps } from "react-youtube";
 import { Tooltip } from "antd";
+import Youtube from "../../../../commons/libraries/YouTube";
 import * as S from "./BoardDetail.styles";
 
-export default function BoardDetailUI(props: IBoardDetailUIProps) {
+export interface IYoutube {
+  videoId: { videoId: string };
+}
+
+export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
   const {
     data,
     onClickDeleteBoard,
@@ -32,8 +38,9 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
             <S.HeaderIcon src="/assets/icons/link.png" />
             <Tooltip
               title={
-                `${data?.fetchBoard.boardAddress?.address} ${data?.fetchBoard.boardAddress?.addressDetail}` ??
-                "주소가 없습니다."
+                `${data?.fetchBoard.boardAddress?.address ?? ""} ${
+                  data?.fetchBoard.boardAddress?.addressDetail ?? ""
+                }` ?? "주소가 없습니다."
               }
             >
               <S.HeaderIcon src="/assets/icons/location.png" />
@@ -44,15 +51,17 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           <S.BoardTitle>{data?.fetchBoard?.title}</S.BoardTitle>
           <S.ImageBox></S.ImageBox>
           <S.Content>{data?.fetchBoard?.contents}</S.Content>
-          {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/L5No7rhWM-I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
           <S.VideoBox>
-            <S.Video
-              // src={data?.fetchBoard.}
-              title="YouTube video player"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
-            >
-              {/* <S.PlayIcon src="/assets/icons/play.png"></S.PlayIcon> */}
-            </S.Video>
+            {data?.fetchBoard.youtubeUrl ? (
+              <Youtube
+                videoId={
+                  data?.fetchBoard.youtubeUrl?.split("v=")[1].split("&")[0] ??
+                  ""
+                }
+              />
+            ) : (
+              ""
+            )}
           </S.VideoBox>
         </S.Body>
         <S.Bottom>
