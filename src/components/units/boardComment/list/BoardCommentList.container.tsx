@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import BoardCommentListUI from "./BoardCommentList.presenter";
 import {
   FETCH_BOARD_COMMENTS,
@@ -12,24 +12,10 @@ import {
   IQueryFetchBoardCommentsArgs,
   IMutationDeleteBoardCommentArgs,
 } from "../../../../commons/types/generated/types";
-import { IModalFormValue } from "../../../../commons/libraries/Modal/Modal.types";
 export default function BoardCommentList() {
   const router = useRouter();
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
-
-  //모달관련
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalContents, setModalContents] = useState({ text: "", type: "" });
-  const [value, setValue] = useState<IModalFormValue>();
-
-  const onToggleModal = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const getValue = (formData: IModalFormValue) => {
-    setValue(formData);
-  };
 
   const { data } = useQuery<
     Pick<IQuery, "fetchBoardComments">,
@@ -44,45 +30,54 @@ export default function BoardCommentList() {
     IMutationDeleteBoardCommentArgs
   >(DELETE_BOARD_COMMENT);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [boardCommentId, setBoardCommentId] = useState("");
+
+  const onClickDelete = (e: MouseEvent<HTMLImageElement>) => {
+    setIsOpen(true);
+    setBoardCommentId(e.currentTarget.id);
+  };
+
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   const onClickDeleteComment = async (
     e: FormEvent<HTMLElement>,
   ): Promise<void> => {
-    onToggleModal();
-    setModalContents({
-      ...modalContents,
-      text: "비밀번호를 입력하세요",
-      type: "password",
-    });
-    console.log(value);
-    if (value) {
-      try {
-        const res = await deleteBoardComment({
-          variables: {
-            password: "123",
-            boardCommentId: e.currentTarget.id,
+    try {
+      await deleteBoardComment({
+        variables: {
+          password,
+          boardCommentId,
+        },
+        refetchQueries: [
+          {
+            query: FETCH_BOARD_COMMENTS,
+            variables: { boardId: router.query.boardId },
           },
-          refetchQueries: [
-            {
-              query: FETCH_BOARD_COMMENTS,
-              variables: { boardId: router.query.boardId },
-            },
-          ],
-        });
-      } catch (err) {
-        if (err instanceof Error) console.log(err.message);
-      }
+        ],
+      });
+      alert("댓글이 삭제되었습니다.");
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
     }
+    setIsOpen(false);
   };
   return (
     <div>
       <BoardCommentListUI
         data={data}
-        onClickDeleteComment={onClickDeleteComment}
-        modalContents={modalContents}
         isOpen={isOpen}
-        onToggleModal={onToggleModal}
-        getValue={getValue}
-        onToggleModal={setIsOpen}
+        onClose={onClose}
+        onClickDelete={onClickDelete}
+        onClickDeleteComment={onClickDeleteComment}
+        onChangePassword={onChangePassword}
       />
     </div>
   );
