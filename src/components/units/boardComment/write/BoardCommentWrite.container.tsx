@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
@@ -15,12 +16,14 @@ import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
 export default function BoardCommentWrite(): JSX.Element {
   const router = useRouter();
 
+  //통신
   const [createBoardComment] = useMutation<
     Pick<IMutation, "createBoardComment">,
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
 
-  if (!router || typeof router.query.boardId !== "string") return <></>;
+  const boardId =
+    typeof router.query.boardId === "string" ? router.query.boardId : "";
   const onSubmitComment = async (formData: IFormValue) => {
     if (formData) {
       try {
@@ -32,13 +35,13 @@ export default function BoardCommentWrite(): JSX.Element {
               contents: formData.contents,
               rating: +formData.rating,
             },
-            boardId: String(router.query.boardId),
+            boardId,
           },
           refetchQueries: [
             {
               query: FETCH_BOARD_COMMENTS,
               variables: {
-                boardId: router.query.boardId,
+                boardId,
               },
             },
           ],

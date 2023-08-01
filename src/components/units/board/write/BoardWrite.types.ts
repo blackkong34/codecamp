@@ -20,8 +20,4 @@ export interface IBoardWriteUIProps extends IBoardsProps {
   onSubmitCreate?: (formData: ICreateBoardInput) => void;
   onSubmitUpdate?: (formData: ICreateBoardInput) => void;
   onClickMoveToBack?: (e: FormEvent<HTMLElement>) => void;
-  errMsg: string;
-  showModal: boolean;
-  onClickClose: () => void;
-  getValue: (value: string) => void;
 }

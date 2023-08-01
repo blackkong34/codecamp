@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.quires";
-import { FormEvent, MouseEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { IBoardsProps, FormValues } from "./BoardWrite.types";
 import {
@@ -12,30 +12,24 @@ import {
 import BoardWriteUI from "./BoardWrite.presenter";
 
 export default function Boards(props: IBoardsProps) {
-  const [showModal, setShowModal] = useState(false);
-  const [errMgs, setErrMsg] = useState("");
-  const [value, setValue] = useState("");
+  const [isModalOpen, setIsOpenModal] = useState(false);
   const router = useRouter();
-
+  // 게시글 생성하기 - 통신
   const [createBoard] = useMutation<
     Pick<IMutation, "createBoard">,
     IMutationCreateBoardArgs
   >(CREATE_BOARD);
-
+  // 게시글 수정하기 - 통신
   const [updateBoard] = useMutation<
     Pick<IMutation, "updateBoard">,
     IMutationUpdateBoardArgs
   >(UPDATE_BOARD);
 
-  const getValue = (value: string) => {
-    setValue(value);
-    console.log(value);
+  // 모달 스위치
+  const onToggleModal = () => {
+    setIsOpenModal((prev) => !prev);
   };
-
-  const onClickClose = () => {
-    if (value === "cancel") setShowModal((prev) => !prev);
-  };
-
+  // 게시글 생성하기 - 이벤트
   const onSubmitCreate = async (formData: ICreateBoardInput): Promise<void> => {
     if (formData) {
       try {
@@ -49,34 +43,28 @@ export default function Boards(props: IBoardsProps) {
             },
           },
         });
+
         router.push(`/boards/${result.data?.createBoard._id}`);
       } catch (error) {
         alert(error);
       }
     }
   };
-
-  const onClickMoveToBack = (
-    e: FormEvent<HTMLElement>,
-    value: string,
-  ): void => {
-    setShowModal((prev) => !prev);
-    setErrMsg("게시글 수정을 취소하시겠습까?");
-    if (value === "confirm") router.push("/boards/");
-    if (value === "cancel") e.preventDefault();
+  //취소버튼 눌렀을 때
+  const onClickMoveToBack = (e: FormEvent<HTMLElement>): void => {
+    confirm("수정을 취소하시겠습니까?")
+      ? router.push("/boards/")
+      : e.preventDefault();
   };
-
+  // 게시글 수정하기 -이벤트
   const onSubmitUpdate = async (formData: ICreateBoardInput): Promise<void> => {
     if (!formData.title && !formData.contents) {
-      setShowModal(true);
-      setErrMsg("수정할 내용이 없습니다");
-      // alert("수정할 내용이 없습니다.");
-
+      alert("수정할 내용이 없습니다.");
       return;
     }
+
     if (!formData.password) {
-      // setShowModal(true);
-      // setErrMsg("비밀번호를 입력해주세요.");
+      prompt("비밀번호를 입력해주세요.");
       alert("비밀번호");
       return;
     }
@@ -87,9 +75,7 @@ export default function Boards(props: IBoardsProps) {
 
     try {
       if (router.query.boardId !== "string") {
-        // setShowModal(true);
-        setErrMsg("시스템에 문제가 발생했습니다.");
-        setShowModal((prev) => !prev);
+        alert("시스템에 문제가 발생했습니다.");
         return;
       }
       const res = await updateBoard({
@@ -99,8 +85,7 @@ export default function Boards(props: IBoardsProps) {
           updateBoardInput: updateVariables,
         },
       });
-      setShowModal(true);
-      setErrMsg("게시글이 수정되었습니다");
+      alert("게시글이 수정되었습니다");
       router.push(`/boards/${router.query.boardId}/`);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
@@ -115,10 +100,6 @@ export default function Boards(props: IBoardsProps) {
         onSubmitCreate={onSubmitCreate}
         onSubmitUpdate={onSubmitUpdate}
         onClickMoveToBack={onClickMoveToBack}
-        errMsg={errMgs}
-        showModal={showModal}
-        onClickClose={onClickClose}
-        getValue={getValue}
       />
     </div>
   );

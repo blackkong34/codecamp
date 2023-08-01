@@ -1,20 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   IBoardCommentWriteUIProps,
   IFormValue,
 } from "./BoardCommentWrite.types";
-import { ICreateBoardCommentInput } from "../../../../commons/types/generated/types";
 import * as S from "./BoardCommentWrite.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-interface IFormValue {
-  writer: string;
-  password: string;
-  contents: string;
-  rating: number;
-}
 
 const schema = yup.object().shape({
   writer: yup.string().required("작성자를 입력해주세요"),
@@ -25,6 +17,7 @@ const schema = yup.object().shape({
     .max(100, "댓글은 100자를 초과할 수 없습니다"),
   rating: yup.number().required("평점을 입력해주세요"),
 });
+
 export default function BoardCommentWriteUI(
   props: IBoardCommentWriteUIProps,
 ): JSX.Element {
@@ -40,7 +33,6 @@ export default function BoardCommentWriteUI(
     defaultValues: { writer: "", password: "", contents: "", rating: 0 },
   });
 
-  const InputRef = useRef();
   const { contents } = watch();
 
   useEffect(() => {
@@ -90,7 +82,6 @@ export default function BoardCommentWriteUI(
           </S.InputWrapper>
         </S.BodyTop>
         <S.BodyMiddle>
-          {/* <S.InputWrapper> */}
           <Controller
             control={control}
             name="contents"
@@ -102,9 +93,8 @@ export default function BoardCommentWriteUI(
               />
             )}
           />
-          {/* </S.InputWrapper> */}
           <S.BtnWrapper>
-            <S.Count>{contents?.length}/100</S.Count>
+            <S.Count>{contents?.length ?? 0}/100</S.Count>
             <S.SubmitBtn type="submit">등록하기</S.SubmitBtn>
           </S.BtnWrapper>
         </S.BodyMiddle>

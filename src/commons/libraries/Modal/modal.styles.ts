@@ -31,7 +31,7 @@ export const ModalHeader = styled.header`
   justify-content: flex-end;
   font-size: 25px;
 `;
-export const ModalBody = styled.header`
+export const ModalBody = styled.form`
   padding: 0 20px;
 `;
 export const BtnsWrapper = styled.div`

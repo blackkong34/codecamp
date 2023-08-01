@@ -1,15 +1,19 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
+import arrowRight from "/public/assets/icons/comment/arrow_right.svg";
 
 export const ItemWrapper = styled.ul`
   width: 1200px;
   margin-top: 40px;
 `;
 export const Item = styled.li`
-  display: flex;
-  flex-direction: row;
+  list-style: none;
   margin-bottom: 20px;
   border-bottom: 1px solid #bdbdbd;
+`;
+export const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 export const Avatar = styled.img`
   width: 48px;
@@ -20,7 +24,6 @@ export const ItemMain = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 `;
 export const WriterBox = styled.div`
   display: flex;

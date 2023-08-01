@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import { IBoardWriteUIProps } from "./BoardWrite.types";
 import { useEffect, useMemo, useState } from "react";
 import { ICreateBoardInput } from "../../../../commons/types/generated/types";
-import Modal from "../../../../commons/libraries/Modal/modal";
-import { Tooltip } from "@material-ui/core";
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const {
     isEdit,
@@ -12,10 +10,10 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     onSubmitCreate,
     onSubmitUpdate,
     onClickMoveToBack,
-    errMsg,
+    isModalOpen,
     showModal,
     getValue,
-    onClickClose,
+    onToggleModal,
   } = props;
   const {
     register,
@@ -42,9 +40,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
 
   return (
     <S.Wrapper>
-      <Modal isOpen={showModal} getValue={getValue} onClose={onClickClose}>
-        {errMsg}
-      </Modal>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
       <S.WriteWrapper
         onSubmit={handleSubmit(isEdit ? onSubmitUpdate! : onSubmitCreate!)}
@@ -155,21 +150,20 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               취소하기
             </S.CancealBtn>
           )}
-          <Tooltip title="You don't have permission to do this">
-            <S.SubmitBtn
-              type="submit"
-              disabled={
-                isEdit
-                  ? !(
-                      (dirtyFields.password && dirtyFields.contents) ||
-                      (dirtyFields.password && dirtyFields.title)
-                    )
-                  : !isValid
-              }
-            >
-              {isEdit ? "수정하기" : "등록하기"}
-            </S.SubmitBtn>
-          </Tooltip>
+
+          <S.SubmitBtn
+            type="submit"
+            disabled={
+              isEdit
+                ? !(
+                    (dirtyFields.password && dirtyFields.contents) ||
+                    (dirtyFields.password && dirtyFields.title)
+                  )
+                : !isValid
+            }
+          >
+            {isEdit ? "수정하기" : "등록하기"}
+          </S.SubmitBtn>
         </S.BtnWrapper>
       </S.WriteWrapper>
     </S.Wrapper>
