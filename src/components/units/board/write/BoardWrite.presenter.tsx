@@ -10,10 +10,10 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     onSubmitCreate,
     onSubmitUpdate,
     onClickMoveToBack,
-    isModalOpen,
-    showModal,
-    getValue,
     onToggleModal,
+    handlePost,
+    isOpen,
+    address,
   } = props;
   const {
     register,
@@ -25,10 +25,18 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     reValidateMode: "onChange",
     shouldFocusError: true,
     defaultValues: {
-      writer: data?.fetchBoard.writer ?? "",
       title: data?.fetchBoard.title ?? "",
       contents: data?.fetchBoard.contents ?? "",
-      youtubeUrl: data?.fetchBoard.youtubeUrl ?? "",
+      // youtubeUrl: data?.fetchBoard.youtubeUrl ?? "",
+      boardAddress: {
+        address: address?.fullAddress,
+        addressDetail: address?.extraAddress,
+        zipcode: address?.zonecode,
+      } ?? {
+        address: "",
+        addressDetail: "",
+        zipcode: "",
+      },
     },
   });
   // useMemo(() => {
@@ -37,9 +45,12 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
   useEffect(() => {
     reset(data?.fetchBoard);
   }, [data?.fetchBoard, reset]);
-
+  console.log(data);
   return (
     <S.Wrapper>
+      <S.PostModal open={isOpen} onCancel={onToggleModal}>
+        <S.Post onComplete={handlePost}></S.Post>
+      </S.PostModal>
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
       <S.WriteWrapper
         onSubmit={handleSubmit(isEdit ? onSubmitUpdate! : onSubmitCreate!)}
@@ -106,15 +117,38 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
         <S.InputWrapper>
           <S.Label>주소</S.Label>
           <S.ZipcodeWrapper>
-            <S.Zipcode type="text" placeholder="07250" />
-            <S.ZipcodeBtn type="button">우편번호 검색</S.ZipcodeBtn>
+            <S.Zipcode
+              {...register("boardAddress.zipcode")}
+              type="text"
+              placeholder="우편번호"
+              value={address?.zonecode}
+              disabled
+            />
+            <S.ZipcodeBtn type="button" onClick={onToggleModal}>
+              우편번호 검색
+            </S.ZipcodeBtn>
           </S.ZipcodeWrapper>
-          <S.Address type="text" />
-          <S.Address type="text" />
+          <S.Address
+            {...register("boardAddress.address")}
+            type="text"
+            value={address?.fullAddress}
+            placeholder="주소"
+            disabled
+          />
+          <S.Address
+            {...register("boardAddress.addressDetail")}
+            type="text"
+            value={address?.extraAddress}
+            placeholder="상세주소를 입력해주세요"
+          />
         </S.InputWrapper>
         <S.InputWrapper>
           <S.Label>유튜브</S.Label>
-          <S.Youtube type="text" placeholder="링크를 복사해주세요." />
+          <S.Youtube
+            {...register("youtubeUrl")}
+            type="text"
+            placeholder="링크를 복사해주세요."
+          />
         </S.InputWrapper>
         <S.InputWrapper>
           <S.Label>사진첨부</S.Label>

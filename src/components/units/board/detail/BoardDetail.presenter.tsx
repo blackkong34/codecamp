@@ -50,8 +50,9 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
             {data?.fetchBoard.youtubeUrl ? (
               <Youtube
                 videoId={
-                  data?.fetchBoard.youtubeUrl?.split("v=")[1].split("&")[0] ??
-                  ""
+                  data.fetchBoard.youtubeUrl.match(/[v=]/g)
+                    ? data.fetchBoard.youtubeUrl.split("v=")[1].split("&")[0]
+                    : data?.fetchBoard.youtubeUrl?.substring(17, 28)
                 }
               />
             ) : (

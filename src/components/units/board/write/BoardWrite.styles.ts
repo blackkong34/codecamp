@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { Modal } from "antd";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 export const Wrapper = styled.section`
   display: flex;
@@ -79,7 +81,6 @@ export const ZipcodeWrapper = styled.div`
 `;
 
 export const Zipcode = styled.input`
-  width: 77px;
   margin-right: 16px;
   padding: 14px 16px;
 `;
@@ -157,6 +158,10 @@ export const CancealBtn = styled.button`
   font-weight: 500;
   border-style: none;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export const SubmitBtn = styled.button`
@@ -172,3 +177,7 @@ export const Error = styled.span`
   font-size: 14px;
   color: red;
 `;
+
+export const PostModal = styled(Modal)``;
+
+export const Post = styled(DaumPostcodeEmbed)``;

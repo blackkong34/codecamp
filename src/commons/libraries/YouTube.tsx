@@ -13,10 +13,8 @@ export default function Youtube(props: IYoutube["videoId"]) {
     width: "486",
     height: "240",
     playerVars: {
-      autoplay: 1,
+      autoplay: 0,
     },
   };
-  return (
-    <YouTube videoId={props.videoId} opts={opts} onReady={onPlayerReady} />
-  );
+  return <YouTube videoId={props.videoId} opts={opts} />;
 }

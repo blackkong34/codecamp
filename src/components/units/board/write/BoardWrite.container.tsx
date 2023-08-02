@@ -10,10 +10,19 @@ import {
   ICreateBoardInput,
 } from "../../../../commons/types/generated/types";
 import BoardWriteUI from "./BoardWrite.presenter";
+import { Modal } from "antd";
+import { Address, DaumPostcodeEmbedProps } from "react-daum-postcode";
+import { Content, Zipcode } from "./BoardWrite.styles";
 
 export default function Boards(props: IBoardsProps) {
-  const [isModalOpen, setIsOpenModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [address, setAddress] = useState({
+    fullAddress: "",
+    extraAddress: "",
+    zonecode: "",
+  });
   const router = useRouter();
+
   // 게시글 생성하기 - 통신
   const [createBoard] = useMutation<
     Pick<IMutation, "createBoard">,
@@ -25,70 +34,114 @@ export default function Boards(props: IBoardsProps) {
     IMutationUpdateBoardArgs
   >(UPDATE_BOARD);
 
-  // 모달 스위치
-  const onToggleModal = () => {
-    setIsOpenModal((prev) => !prev);
-  };
-  // 게시글 생성하기 - 이벤트
-  const onSubmitCreate = async (formData: ICreateBoardInput): Promise<void> => {
-    if (formData) {
-      try {
-        const result = await createBoard({
-          variables: {
-            createBoardInput: {
-              writer: formData.writer,
-              password: formData.password,
-              title: formData.title,
-              contents: formData.contents,
-            },
-          },
-        });
-
-        router.push(`/boards/${result.data?.createBoard._id}`);
-      } catch (error) {
-        alert(error);
-      }
-    }
-  };
   //취소버튼 눌렀을 때
   const onClickMoveToBack = (e: FormEvent<HTMLElement>): void => {
-    confirm("수정을 취소하시겠습니까?")
-      ? router.push("/boards/")
-      : e.preventDefault();
+    Modal.confirm({
+      title: "수정을 취소하시겠습니까?",
+      okText: "확인",
+      cancelText: "취소",
+
+      onOk: () => router.push("/boards/"),
+    });
   };
-  // 게시글 수정하기 -이벤트
-  const onSubmitUpdate = async (formData: ICreateBoardInput): Promise<void> => {
-    if (!formData.title && !formData.contents) {
-      alert("수정할 내용이 없습니다.");
-      return;
+
+  const onToggleModal = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handlePost = (data: Address): void => {
+    // 사용자가 선택한 타입에 따라 주소가 달라진다.
+    let fullAddress =
+      data.userSelectedType === "R" ? data.roadAddress : data.jibunAddress;
+
+    //참고항목
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      extraAddress += data.bname ? data.bname : "";
+    }
+    if (data.buildingName) {
+      extraAddress += extraAddress
+        ? `, ${data.buildingName}`
+        : data.buildingName;
     }
 
-    if (!formData.password) {
-      prompt("비밀번호를 입력해주세요.");
-      alert("비밀번호");
-      return;
-    }
+    setAddress({
+      ...address,
+      fullAddress: fullAddress,
+      extraAddress: extraAddress,
+      zonecode: data.zonecode,
+    });
+    setIsOpen((prev) => !prev);
+  };
 
-    const updateVariables: FormValues = {};
-    if (formData.title) updateVariables.title = formData.title;
-    if (formData.contents) updateVariables.contents = formData.contents;
+  // 게시글 생성하기 - 이벤트
+  const onSubmitCreate = async (formData: ICreateBoardInput): Promise<void> => {
+    console.log(formData);
+
+    if (!formData) {
+      Modal.warning({ content: "데이터 전송에 실패했습니다", okText: "확인" });
+    }
 
     try {
-      if (router.query.boardId !== "string") {
-        alert("시스템에 문제가 발생했습니다.");
-        return;
-      }
-      const res = await updateBoard({
+      const result = await createBoard({
         variables: {
-          boardId: router.query.boardId,
+          createBoardInput: {
+            writer: formData.writer,
+            password: formData.password,
+            title: formData.title,
+            contents: formData.contents,
+            youtubeUrl: formData.youtubeUrl,
+            boardAddress: {
+              zipcode: formData.boardAddress?.zipcode,
+              address: formData.boardAddress?.address,
+              addressDetail: formData.boardAddress?.addressDetail,
+            },
+          },
+        },
+      });
+
+      router.push(`/boards/${result.data?.createBoard._id}`);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  // 게시글 수정하기 -이벤트
+  const onSubmitUpdate = async (formData: ICreateBoardInput): Promise<void> => {
+    const updateVariables: Partial<ICreateBoardInput> = {};
+
+    if (formData?.title) updateVariables.title = formData.title;
+    if (formData?.contents) updateVariables.contents = formData.contents;
+    if (formData?.youtubeUrl) updateVariables.youtubeUrl = formData.youtubeUrl;
+    if (address)
+      updateVariables.boardAddress = {
+        address: address.fullAddress,
+        addressDetail: address.extraAddress,
+        zipcode: address.zonecode,
+      };
+
+    const boardId =
+      typeof router.query.boardId === "string" ? router.query.boardId : "";
+    if (!boardId)
+      Modal.error({ content: "시스템의 문제가 발생했습니다", okText: "확인" });
+    try {
+      await updateBoard({
+        variables: {
+          boardId,
           password: formData.password,
           updateBoardInput: updateVariables,
         },
       });
-      alert("게시글이 수정되었습니다");
-      router.push(`/boards/${router.query.boardId}/`);
+      Modal.info({
+        content: "게시글이 수정되었습니다",
+        okText: "확인",
+      });
+      router.push(`/boards/${boardId}/`);
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) {
+        Modal.warning({ content: error.message, okText: "확인" });
+      }
     }
   };
 
@@ -100,6 +153,10 @@ export default function Boards(props: IBoardsProps) {
         onSubmitCreate={onSubmitCreate}
         onSubmitUpdate={onSubmitUpdate}
         onClickMoveToBack={onClickMoveToBack}
+        onToggleModal={onToggleModal}
+        handlePost={handlePost}
+        isOpen={isOpen}
+        address={address}
       />
     </div>
   );
