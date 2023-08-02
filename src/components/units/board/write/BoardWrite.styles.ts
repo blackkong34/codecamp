@@ -178,6 +178,11 @@ export const Error = styled.span`
   color: red;
 `;
 
-export const PostModal = styled(Modal)``;
+export const PostModal = styled(Modal)`
+  width: fit-content;
+  height: 48.25rem;
+`;
 
-export const Post = styled(DaumPostcodeEmbed)``;
+export const Post = styled(DaumPostcodeEmbed)`
+  margin-top: 35px;
+`;

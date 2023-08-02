@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
@@ -24,10 +23,11 @@ export default function BoardCommentWrite(): JSX.Element {
 
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
+
   const onSubmitComment = async (formData: IFormValue) => {
     if (formData) {
       try {
-        const result = await createBoardComment({
+        await createBoardComment({
           variables: {
             createBoardCommentInput: {
               writer: formData.writer,

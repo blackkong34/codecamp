@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.quires";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { IBoardsProps, FormValues } from "./BoardWrite.types";
+import { IBoardsProps } from "./BoardWrite.types";
 import {
   IMutation,
   IMutationCreateBoardArgs,
@@ -11,8 +11,7 @@ import {
 } from "../../../../commons/types/generated/types";
 import BoardWriteUI from "./BoardWrite.presenter";
 import { Modal } from "antd";
-import { Address, DaumPostcodeEmbedProps } from "react-daum-postcode";
-import { Content, Zipcode } from "./BoardWrite.styles";
+import { Address } from "react-daum-postcode";
 
 export default function Boards(props: IBoardsProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +39,6 @@ export default function Boards(props: IBoardsProps) {
       title: "수정을 취소하시겠습니까?",
       okText: "확인",
       cancelText: "취소",
-
       onOk: () => router.push("/boards/"),
     });
   };
@@ -48,7 +46,7 @@ export default function Boards(props: IBoardsProps) {
   const onToggleModal = () => {
     setIsOpen((prev) => !prev);
   };
-
+  //todo 주소 다시 클릭했을 때 화면이 비어있음, 주소변경시 상세 주소가 없으면 기존 주소가 유지됨
   const handlePost = (data: Address): void => {
     // 사용자가 선택한 타입에 따라 주소가 달라진다.
     let fullAddress =
@@ -57,14 +55,14 @@ export default function Boards(props: IBoardsProps) {
     //참고항목
     let extraAddress = "";
 
-    if (data.addressType === "R") {
-      extraAddress += data.bname ? data.bname : "";
-    }
-    if (data.buildingName) {
-      extraAddress += extraAddress
-        ? `, ${data.buildingName}`
-        : data.buildingName;
-    }
+    if (data.addressType === "R" && /[동|로|가]$/g.test(data.bname)) {
+      extraAddress += data.bname !== "" ? data.bname : "";
+
+      if (data.buildingName) {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+    } else extraAddress = "";
 
     setAddress({
       ...address,
@@ -72,7 +70,8 @@ export default function Boards(props: IBoardsProps) {
       extraAddress: extraAddress,
       zonecode: data.zonecode,
     });
-    setIsOpen((prev) => !prev);
+
+    onToggleModal();
   };
 
   // 게시글 생성하기 - 이벤트
@@ -114,7 +113,11 @@ export default function Boards(props: IBoardsProps) {
     if (formData?.title) updateVariables.title = formData.title;
     if (formData?.contents) updateVariables.contents = formData.contents;
     if (formData?.youtubeUrl) updateVariables.youtubeUrl = formData.youtubeUrl;
-    if (address)
+    if (
+      address.fullAddress !== "" ||
+      address.zonecode !== "" ||
+      address.extraAddress !== ""
+    )
       updateVariables.boardAddress = {
         address: address.fullAddress,
         addressDetail: address.extraAddress,

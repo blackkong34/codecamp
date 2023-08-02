@@ -45,12 +45,13 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
   useEffect(() => {
     reset(data?.fetchBoard);
   }, [data?.fetchBoard, reset]);
-  console.log(data);
   return (
     <S.Wrapper>
-      <S.PostModal open={isOpen} onCancel={onToggleModal}>
-        <S.Post onComplete={handlePost}></S.Post>
-      </S.PostModal>
+      {isOpen && (
+        <S.PostModal open={true} onCancel={onToggleModal} footer={null}>
+          <S.Post onComplete={handlePost} />
+        </S.PostModal>
+      )}
       <S.Title>{isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
       <S.WriteWrapper
         onSubmit={handleSubmit(isEdit ? onSubmitUpdate! : onSubmitCreate!)}
@@ -121,7 +122,11 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               {...register("boardAddress.zipcode")}
               type="text"
               placeholder="우편번호"
-              value={address?.zonecode}
+              value={
+                address?.zonecode
+                  ? address.zonecode
+                  : data?.fetchBoard.boardAddress?.zipcode ?? ""
+              }
               disabled
             />
             <S.ZipcodeBtn type="button" onClick={onToggleModal}>
@@ -131,14 +136,22 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.Address
             {...register("boardAddress.address")}
             type="text"
-            value={address?.fullAddress}
+            value={
+              address?.fullAddress !== ""
+                ? address?.fullAddress
+                : data?.fetchBoard.boardAddress?.address ?? ""
+            }
             placeholder="주소"
             disabled
           />
           <S.Address
             {...register("boardAddress.addressDetail")}
             type="text"
-            value={address?.extraAddress}
+            value={
+              address?.extraAddress !== ""
+                ? address?.extraAddress
+                : data?.fetchBoard.boardAddress?.addressDetail ?? ""
+            }
             placeholder="상세주소를 입력해주세요"
           />
         </S.InputWrapper>

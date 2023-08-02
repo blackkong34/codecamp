@@ -20,7 +20,7 @@ export type FormValues = {
 
 interface IAddress {
   fullAddress: string;
-  extraAddress: string;
+  extraAddress?: string;
   zonecode: string;
 }
 
