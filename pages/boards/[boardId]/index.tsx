@@ -5,8 +5,8 @@ export default function BoardDetailPage() {
   return (
     <>
       <BoardDetail />
-      <BoardCommentWrite isWrite={true} />
-      <BoardCommentList isWrite={false} />
+      <BoardCommentWrite />
+      <BoardCommentList />
     </>
   );
 }

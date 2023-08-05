@@ -185,13 +185,10 @@ export const DateLine = styled.span`
   color: #bdbdbd;
 `;
 export const SearchBtn = styled.button`
-  width: 100px;
-  height: 52px;
   padding: 14px 16px;
   background: #000;
   border-radius: 10px;
-  border-style: none;
-  font-size: 16px;
+  border: 1px solid #000;
   font-weight: 500;
   color: #fff;
   cursor: pointer;
@@ -206,15 +203,12 @@ export const SearchBtn = styled.button`
 export const BodyTable = styled.table`
   width: 100%;
   margin-bottom: 54px;
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   border: 1px solid #000;
   border-left: none;
   border-right: none;
 `;
-export const Row = styled.tr`
-  padding: 11px 0;
-  height: 52px;
-`;
+export const Row = styled.tr``;
 export const RowBody = styled(Row)`
   cursor: pointer;
   &:hover {
@@ -223,6 +217,7 @@ export const RowBody = styled(Row)`
 `;
 export const HeaderBasic = styled.th`
   width: 15%;
+  padding: 14px;
   font-size: 18px;
   font-weight: 500;
 `;
@@ -230,6 +225,7 @@ export const HeaderTitle = styled(HeaderBasic)`
   width: 55%;
 `;
 export const Column = styled.td`
+  padding: 14px 0;
   font-weight: 400;
   text-align: center;
   border: 1px solid #bdbdbd;
@@ -237,10 +233,10 @@ export const Column = styled.td`
   border-right: none;
 `;
 export const ColumnTitle = styled(Column)`
-  /* cursor: pointer;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
-  } */
+  }
 `;
 export const Footer = styled.div`
   display: flex;
@@ -257,14 +253,13 @@ export const PageNum = styled.span`
   color: #4f4f4f;
 `;
 export const NewBtn = styled.button`
-  width: 171px;
-  height: 52px;
+  padding: 14px 16px;
   background: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 10px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 8px;
   position: absolute;
   right: 0;
   top: -50%;

@@ -11,7 +11,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
         <S.CardsWrapper>
           {data?.fetchBoardsOfTheBest?.map((el) => (
             <S.Card key={el._id} id={el._id} onClick={onClickMoveToDetail}>
-              <S.CardImg src={el.images[0] ?? "/assets/images/car.jpg"} />
+              <S.CardImg src={el.images?.[0] ?? "/assets/images/car.jpg"} />
               <S.CardContents>
                 <S.CardTitle>{el.title}</S.CardTitle>
                 <S.CardInfo>

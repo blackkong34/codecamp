@@ -23,7 +23,8 @@
     "src/components/units/board/detail/comment/write/BoardCommentWrite.container.tsx",
     "src/commons/libraries/starRate.js",
     "pages/boards/index.tsx",
-    "src/commons/libraries/Modal/Portal.jsx"
+    "src/commons/libraries/Modal/Portal.jsx",
+    "src/components/commons/Layout/index.tsx"
   ],
   "exclude": ["node_modules"]
 }

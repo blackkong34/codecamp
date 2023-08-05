@@ -46,7 +46,7 @@ export default function Boards(props: IBoardsProps) {
   const onToggleModal = () => {
     setIsOpen((prev) => !prev);
   };
-  //todo 주소 다시 클릭했을 때 화면이 비어있음, 주소변경시 상세 주소가 없으면 기존 주소가 유지됨
+  //todo 주소변경시 상세 주소가 없으면 기존 주소가 유지됨
   const handlePost = (data: Address): void => {
     // 사용자가 선택한 타입에 따라 주소가 달라진다.
     let fullAddress =
