@@ -23,7 +23,7 @@ export default function Layout(props: ILayoutProps): JSX.Element {
     <>
       {/* <LayoutHeader /> */}
       <LayoutBanner />
-      {/* <LayoutNavigation /> */}
+      <LayoutNavigation />
       <div>{props.children}</div>
     </>
   );

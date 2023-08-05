@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Slider from "react-slick";
-// import NavigateNextIcon from "../../../../../public/assets/icons/Banner/navigate_next.svg";
 import NavigateNextIcon from "/public/assets/icons/Banner/navigate_next.svg";
 import NavigateprevIcon from "/public/assets/icons/Banner/navigate_before.svg";
 import EllipseIcon from "/public/assets/icons/Banner/Ellipse.svg";
@@ -14,9 +13,12 @@ export const BannerTitle = styled.h1`
 `;
 
 export const StyledSlider = styled(Slider)`
+  .slick-slide {
+    height: 400px;
+    /* opacity: 0.7; */
+  }
   .slick-arrow {
     cursor: pointer;
-
     &::before {
       display: none;
     }

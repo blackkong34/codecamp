@@ -12,13 +12,17 @@ const CarouselImg = [
 
 export default function LayoutBannerUI(): JSX.Element {
   const settings = {
+    slide: "img",
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrow: true,
     draggable: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
     prevArrow: (
       <S.PrevTo>
         <S.PrevEllipse />
@@ -35,7 +39,6 @@ export default function LayoutBannerUI(): JSX.Element {
 
   return (
     <div>
-      <h2> Single Item</h2>
       <S.StyledSlider {...settings}>
         <div>
           <S.Img src="/assets/images/Carousel/carousel (1).jpg" />
