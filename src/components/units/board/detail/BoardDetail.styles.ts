@@ -58,16 +58,20 @@ export const Avatar = styled.img`
 export const AvatarInfo = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 `;
 
 export const Writer = styled.span`
   color: #000;
   font-size: 24px;
   font-weight: 500;
+  line-height: 24px;
+  vertical-align: middle;
 `;
 
 export const CreatedAt = styled.span`
   color: #828282;
+  line-height: 16px;
 `;
 
 export const HeaderIcon = styled.img`

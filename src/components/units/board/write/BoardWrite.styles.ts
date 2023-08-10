@@ -8,7 +8,7 @@ export const Wrapper = styled.section`
   align-items: center;
   padding: 80px 102px 100px 102px;
   width: 1200px;
-  background: #fff;
+  background: ${(props) => props.theme.color.white};
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
 `;
 

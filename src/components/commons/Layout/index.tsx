@@ -1,13 +1,14 @@
 import LayoutHeader from "./Header/LayoutHeader.container";
 import LayoutBanner from "./Banner/LayoutBanner.container";
-import LayoutNavigation from "./Navigation/LayoutNavigation.container";
 import styled from "@emotion/styled";
 // import { useRouter } from "next/router";
 
 const Body = styled.div`
-  font-family: "Noto Sans KR", sans-serif;
   display: flex;
   justify-content: center;
+  padding: 24px;
+  background: rgb(249, 249, 249);
+  font-family: "Noto Sans KR", sans-serif;
 `;
 
 // const HIDDEN_COMMON = [];
@@ -21,10 +22,11 @@ export default function Layout(props: ILayoutProps): JSX.Element {
 
   return (
     <>
-      {/* <LayoutHeader /> */}
-      <LayoutBanner />
-      <LayoutNavigation />
-      <div>{props.children}</div>
+      <LayoutHeader />
+      {/* <LayoutBanner /> */}
+      <Body>
+        <div>{props.children}</div>
+      </Body>
     </>
   );
 }

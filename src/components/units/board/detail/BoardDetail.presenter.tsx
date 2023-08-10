@@ -25,7 +25,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
                 {data?.fetchBoard?.writer ?? "존재하지 않는 게시글입니다"}
               </S.Writer>
               <S.CreatedAt>
-                Date : {getDate(data?.fetchBoard.createdAt)}
+                작성일자 : {getDate(data?.fetchBoard.createdAt)}
               </S.CreatedAt>
             </S.AvatarInfo>
           </S.AvatarWrapper>

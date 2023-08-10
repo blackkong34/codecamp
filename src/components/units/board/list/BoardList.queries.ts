@@ -6,7 +6,14 @@ export const FETCH_BOARDS_AND_BOARDS_OF_BEST = gql`
       _id
       writer
       title
+      contents
       likeCount
+      images
+      user {
+        _id
+        name
+        picture
+      }
       createdAt
     }
     fetchBoardsOfTheBest {
@@ -16,6 +23,11 @@ export const FETCH_BOARDS_AND_BOARDS_OF_BEST = gql`
       likeCount
       images
       createdAt
+      user {
+        _id
+        name
+        picture
+      }
     }
   }
 `;

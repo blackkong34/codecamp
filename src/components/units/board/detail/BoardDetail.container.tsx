@@ -16,6 +16,8 @@ import {
   IMutationDislikeBoardArgs,
 } from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
+import { Modal } from "antd";
+import { ok } from "assert";
 
 export default function BoardDetail() {
   const router = useRouter();
@@ -74,6 +76,12 @@ export default function BoardDetail() {
   const onClickDeleteBoard = async (
     e: FormEvent<HTMLElement>,
   ): Promise<void> => {
+    Modal.confirm({
+      content: "삭제하시겠습니까?",
+      okText: "확인",
+      cancelText: "취소",
+      onCancel: () => e.preventDefault(),
+    });
     const answer = confirm("삭제하시겠습니까?");
     if (answer === false) {
       e.preventDefault();

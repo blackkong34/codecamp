@@ -1,4 +1,6 @@
 import type { AppProps } from "next/app";
+import { ThemeProvider } from "@emotion/react";
+import { theme } from "../src/commons/styles/theme";
 import { Global } from "@emotion/react";
 import { globalStyles } from "../src/commons/styles/globalStyles";
 import ApolloSetting from "../src/components/commons/apollo";
@@ -8,10 +10,12 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <ApolloSetting>
       <>
-        <Global styles={globalStyles} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ThemeProvider theme={theme}>
+          <Global styles={globalStyles} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
       </>
     </ApolloSetting>
   );

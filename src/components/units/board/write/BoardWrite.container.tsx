@@ -36,9 +36,10 @@ export default function Boards(props: IBoardsProps) {
   //취소버튼 눌렀을 때
   const onClickMoveToBack = (e: FormEvent<HTMLElement>): void => {
     Modal.confirm({
-      title: "수정을 취소하시겠습니까?",
-      okText: "확인",
-      cancelText: "취소",
+      title: "정말 나가시겠습니까?",
+      content: "저장하지 않은 내용을 잃어버릴 수 있습니다.",
+      okText: "나가기",
+      cancelText: "계속 작성하기",
       onOk: () => router.push("/boards/"),
     });
   };
@@ -76,10 +77,8 @@ export default function Boards(props: IBoardsProps) {
 
   // 게시글 생성하기 - 이벤트
   const onSubmitCreate = async (formData: ICreateBoardInput): Promise<void> => {
-    console.log(formData);
-
     if (!formData) {
-      Modal.warning({ content: "데이터 전송에 실패했습니다", okText: "확인" });
+      Modal.warning({ title: "데이터 전송에 실패했습니다", okText: "확인" });
     }
 
     try {
@@ -102,7 +101,8 @@ export default function Boards(props: IBoardsProps) {
 
       router.push(`/boards/${result.data?.createBoard._id}`);
     } catch (error) {
-      alert(error);
+      if (error instanceof Error)
+        Modal.warning({ title: error.message, okText: "확인" });
     }
   };
 
@@ -127,7 +127,7 @@ export default function Boards(props: IBoardsProps) {
     const boardId =
       typeof router.query.boardId === "string" ? router.query.boardId : "";
     if (!boardId)
-      Modal.error({ content: "시스템의 문제가 발생했습니다", okText: "확인" });
+      Modal.error({ title: "시스템의 문제가 발생했습니다", okText: "확인" });
     try {
       await updateBoard({
         variables: {
@@ -137,13 +137,13 @@ export default function Boards(props: IBoardsProps) {
         },
       });
       Modal.info({
-        content: "게시글이 수정되었습니다",
+        title: "게시글이 수정되었습니다",
         okText: "확인",
       });
       router.push(`/boards/${boardId}/`);
     } catch (error) {
       if (error instanceof Error) {
-        Modal.warning({ content: error.message, okText: "확인" });
+        Modal.warning({ title: error.message, okText: "확인" });
       }
     }
   };

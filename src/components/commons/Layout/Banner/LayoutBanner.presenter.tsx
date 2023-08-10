@@ -1,5 +1,5 @@
 import * as S from "./LayoutBanner.styles";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -40,18 +40,11 @@ export default function LayoutBannerUI(): JSX.Element {
   return (
     <div>
       <S.StyledSlider {...settings}>
-        <div>
-          <S.Img src="/assets/images/Carousel/carousel (1).jpg" />
-        </div>
-        <div>
-          <S.Img src="/assets/images/Carousel/carousel (2).jpg" />
-        </div>
-        <div>
-          <S.Img src="/assets/images/Carousel/carousel (3).jpg" />
-        </div>
-        <div>
-          <S.Img src="/assets/images/Carousel/carousel (4).jpg" />
-        </div>
+        {CarouselImg.map((img) => (
+          <div key={img.idx}>
+            <S.Img src={img.src} />
+          </div>
+        ))}
       </S.StyledSlider>
     </div>
   );
