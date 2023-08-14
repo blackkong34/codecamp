@@ -22,10 +22,10 @@ export default function LayoutHeaderUI(): JSX.Element {
               <li key={menu.id}>
                 <Link href={menu.path}>
                   <S.NavTab
-                  // style={{
-                  //   color:
-                  //     menu.path === router.pathname ? "#514400" : "#ab9000",
-                  // }}
+                    style={{
+                      color:
+                        menu.path === router.pathname ? "#1344ff" : "#dfdfdf",
+                    }}
                   >
                     {menu.name}
                   </S.NavTab>

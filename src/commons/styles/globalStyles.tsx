@@ -46,7 +46,6 @@ export const globalStyles = css`
   button,
   a {
     font-family: inherit;
-    /* color: inherit; */
     border: none;
     outline: none;
   }

@@ -5,5 +5,7 @@ export default function BoardNestedComment() {
 
   // }
 
+  const onClickEdit = () => {};
+
   return <BoardNestedCommentUI />;
 }

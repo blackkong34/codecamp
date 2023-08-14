@@ -9,11 +9,6 @@ export const FETCH_BOARDS_AND_BOARDS_OF_BEST = gql`
       contents
       likeCount
       images
-      user {
-        _id
-        name
-        picture
-      }
       createdAt
     }
     fetchBoardsOfTheBest {
