@@ -1,20 +1,34 @@
 import * as S from "./BoardList.styles";
 import { getDate } from "../../../../commons/libraries/utils";
 import { IBoardListUIProps } from "./BoardList.types";
+import Pagination from "../../../commons/pagination/paginaton.container";
+
 export default function BoardListUI(props: IBoardListUIProps) {
-  const { data, onClickMoveToNew, onClickMoveToDetail } = props;
+  const {
+    boardsData,
+    bestBoardsData,
+    onClickMoveToNew,
+    onClickMoveToDetail,
+    refetch,
+    boardsCount,
+  } = props;
+  console.log(boardsData);
   return (
     <S.Wrapper>
       <S.Header>
         <S.Title>베스트 게시글</S.Title>
         <S.CardsWrapper>
-          {data?.fetchBoardsOfTheBest?.map((el) => (
-            <S.Card key={el._id} id={el._id} onClick={onClickMoveToDetail}>
+          {bestBoardsData?.fetchBoardsOfTheBest?.map((board) => (
+            <S.Card
+              key={board._id}
+              id={board._id}
+              onClick={onClickMoveToDetail}
+            >
               <S.CardImg
-                src={el.images ? el.images[0] : "/assets/images/car.jpg"}
+                src={board.images ? board.images[0] : "/assets/images/car.jpg"}
               />
               <S.CardContents>
-                <S.CardTitle>{el.title}</S.CardTitle>
+                <S.CardTitle>{board.title}</S.CardTitle>
                 <S.CardInfo>
                   <S.CardProfile>
                     <S.AvatarBox>
@@ -22,15 +36,15 @@ export default function BoardListUI(props: IBoardListUIProps) {
                         src="/assets/icons/profile.png"
                         alt="작성자프로필"
                       />
-                      <S.CardWriter>{el.writer}</S.CardWriter>
+                      <S.CardWriter>{board.writer}</S.CardWriter>
                     </S.AvatarBox>
                     <S.CardCreatedAt>
-                      Date : {getDate(el.createdAt)}
+                      Date : {getDate(board.createdAt)}
                     </S.CardCreatedAt>
                   </S.CardProfile>
                   <S.LikeBox>
                     <S.Like src="/assets/icons/thumb_up.png" alt="좋아요" />
-                    <S.Count>{el.likeCount}</S.Count>
+                    <S.Count>{board.likeCount}</S.Count>
                   </S.LikeBox>
                 </S.CardInfo>
               </S.CardContents>
@@ -74,25 +88,26 @@ export default function BoardListUI(props: IBoardListUIProps) {
               </S.Row>
             </thead>
             <tbody>
-              {data?.fetchBoards
+              {boardsData?.fetchBoards
                 .slice(0)
                 .reverse()
-                .map((el) => (
+                .map((board) => (
                   <S.RowBody
-                    key={el._id}
-                    id={el._id}
+                    key={board._id}
+                    id={board._id}
                     onClick={onClickMoveToDetail}
                   >
-                    <S.Column>{el._id.slice(-4).toUpperCase()}</S.Column>
-                    <S.ColumnTitle>{el.title}</S.ColumnTitle>
-                    <S.Column>{el.writer}</S.Column>
-                    <S.Column>{getDate(el.createdAt)}</S.Column>
+                    <S.Column>{board._id.slice(-4).toUpperCase()}</S.Column>
+                    <S.ColumnTitle>{board.title}</S.ColumnTitle>
+                    <S.Column>{board.writer}</S.Column>
+                    <S.Column>{getDate(board.createdAt)}</S.Column>
                   </S.RowBody>
                 ))}
             </tbody>
           </S.BodyTable>
           <S.Footer>
-            <S.Pagination>
+            <Pagination refetch={refetch} boardsCount={boardsCount} />
+            {/* <S.Pagination>
               <S.Icon
                 src="/assets/icons/navigate_before.png"
                 alt="이전 페이지"
@@ -100,7 +115,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
               <S.PageNum>1</S.PageNum>
               <S.PageNum>2</S.PageNum>
               <S.Icon src="/assets/icons/navigate_next.png" alt="이전 페이지" />
-            </S.Pagination>
+            </S.Pagination> */}
             <S.NewBtn onClick={onClickMoveToNew}>
               <S.Icon src="/assets/icons/create.png"></S.Icon>게시물 등록하기
             </S.NewBtn>

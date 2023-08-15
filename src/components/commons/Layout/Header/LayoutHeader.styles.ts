@@ -52,23 +52,37 @@ export const MenuLink = styled.a`
 `;
 
 export const Login = styled.span`
+  background-color: #0f6ca6;
   font-weight: 700;
+  border: 1px solid #ced4da;
+  background: white;
+  color: #ced4da;
+
   border-radius: 20px;
-  color: ${(props) => props.theme.color.blue};
+
   padding: ${(props) => props.theme.padding.sm};
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    background: ${(props) => props.theme.color.gray};
+    border: 1px solid #1344ff;
+    color: #1344ff;
   }
 `;
 
 export const SignUp = styled.span`
+  border: 1px solid white;
   padding: ${(props) => props.theme.padding.sm};
   background: ${(props) => props.theme.color.blue};
   border-radius: 20px;
   font-weight: 700;
   color: ${(props) => props.theme.color.white};
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background-color: white;
+    color: #1344ff;
+    border: 1px solid #1344ff;
+  }
 `;
