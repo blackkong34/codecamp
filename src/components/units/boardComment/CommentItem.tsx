@@ -15,7 +15,6 @@ export default function CommentItem(props: ICommentItemProps) {
   const onClickEdit = () => {
     setIsEdit(true);
   };
-  console.log(isEdit);
   return (
     <S.ItemWrapper>
       {/* <S.PasswordModal
@@ -61,7 +60,11 @@ export default function CommentItem(props: ICommentItemProps) {
           {/* <BoardNestedComment /> */}
         </S.Item>
       ) : (
-        <BoardCommentWrite />
+        <BoardCommentWrite
+          comment={comment}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        />
       )}
     </S.ItemWrapper>
   );

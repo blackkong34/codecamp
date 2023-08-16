@@ -24,7 +24,8 @@ const schema = yup.object().shape({
 export default function BoardCommentWriteUI(
   props: IBoardCommentWriteUIProps,
 ): JSX.Element {
-  const { onSubmitComment, data } = props;
+  const { onSubmitComment, onUpdateComment, comment, isEdit, onClickCancel } =
+    props;
   const {
     handleSubmit,
     control,
@@ -34,10 +35,10 @@ export default function BoardCommentWriteUI(
   } = useForm<IFormValue>({
     resolver: yupResolver(schema),
     defaultValues: {
-      writer: "",
+      writer: comment?.writer ?? "",
       password: "",
-      contents: "",
-      rating: 0,
+      contents: comment?.contents ?? "",
+      rating: comment?.rating ?? 0,
     },
   });
 
@@ -47,17 +48,17 @@ export default function BoardCommentWriteUI(
     if (isSubmitSuccessful) reset();
   }, [reset, isSubmitSuccessful]);
 
-  // useEffect(() => {
-  //   reset(data?.fetchBoardComments);
-  // }, [data?.fetchBoardComments, reset]);
-
   return (
     <S.Wrapper>
-      <S.Header>
-        <S.Icon src="/assets/icons/review.png" />
-        <S.Title>댓글</S.Title>
-      </S.Header>
-      <S.Body onSubmit={handleSubmit(onSubmitComment)}>
+      {!isEdit && (
+        <S.Header>
+          <S.Icon src="/assets/icons/review.png" />
+          <S.Title>댓글</S.Title>
+        </S.Header>
+      )}
+      <S.Body
+        onSubmit={handleSubmit(isEdit ? onUpdateComment : onSubmitComment)}
+      >
         <S.BodyTop>
           <S.InputWrapper>
             <Controller
@@ -107,7 +108,12 @@ export default function BoardCommentWriteUI(
           />
           <S.BtnWrapper>
             <S.Count>{contents?.length ?? 0}/100</S.Count>
-            <S.SubmitBtn type="submit">등록하기</S.SubmitBtn>
+            <button type="button" onClick={onClickCancel}>
+              취소하기
+            </button>
+            <S.SubmitBtn type="submit">
+              {isEdit ? "수정하기" : "등록하기"}
+            </S.SubmitBtn>
           </S.BtnWrapper>
         </S.BodyMiddle>
         {errors?.contents && <S.Error>{errors.contents.message}</S.Error>}

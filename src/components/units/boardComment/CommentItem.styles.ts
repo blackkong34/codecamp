@@ -3,7 +3,7 @@ import { Rate } from "antd";
 import arrowRight from "/public/assets/icons/comment/arrow_right.svg";
 import { Button, Modal, Space } from "antd";
 
-export const ItemWrapper = styled.form`
+export const ItemWrapper = styled.div`
   width: 1200px;
   margin-top: 40px;
   background-color: #fff;
