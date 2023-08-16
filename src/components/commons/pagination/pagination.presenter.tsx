@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import { IPaginationUIProps } from "./pagination.types";
 import * as S from "./pagination.styles";
 import {
   LeftOutlined,
@@ -6,18 +6,6 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
-
-interface IPaginationUIProps {
-  RANGE: number;
-  startPage: number;
-  isActivePage: number;
-  endPage: number;
-  handlePage: (e: MouseEvent<HTMLSpanElement>) => void;
-  handlePrevPages: (e: MouseEvent<HTMLSpanElement>) => void;
-  handleNextPages: (e: MouseEvent<HTMLSpanElement>) => void;
-  handleFirstPage: () => void;
-  handleEndPage: () => void;
-}
 
 export default function PaginationUI(props: IPaginationUIProps) {
   const {

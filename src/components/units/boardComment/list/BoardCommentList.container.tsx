@@ -3,15 +3,16 @@ import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import BoardCommentListUI from "./BoardCommentList.presenter";
 import {
-  FETCH_BOARD_COMMENTS,
   DELETE_BOARD_COMMENT,
+  FETCH_BOARD_COMMENTS,
 } from "./BoardCommentList.queries";
-import {
+import type {
   IMutation,
   IQuery,
   IQueryFetchBoardCommentsArgs,
   IMutationDeleteBoardCommentArgs,
 } from "../../../../commons/types/generated/types";
+
 export default function BoardCommentList() {
   const router = useRouter();
   const boardId =
@@ -47,9 +48,7 @@ export default function BoardCommentList() {
     setIsOpen(false);
   };
 
-  const onClickDeleteComment = async (
-    e: FormEvent<HTMLElement>,
-  ): Promise<void> => {
+  const onClickDeleteComment = async () => {
     try {
       await deleteBoardComment({
         variables: {
@@ -69,15 +68,18 @@ export default function BoardCommentList() {
     }
     setIsOpen(false);
   };
+
   return (
     <div>
       <BoardCommentListUI
         data={data}
+        //모달관련
         isOpen={isOpen}
         onClose={onClose}
         onClickDelete={onClickDelete}
         onClickDeleteComment={onClickDeleteComment}
         onChangePassword={onChangePassword}
+        //수정
       />
     </div>
   );

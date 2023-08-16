@@ -193,11 +193,10 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
         </S.InputWrapper>
         <S.BtnWrapper>
           {isEdit && (
-            <S.CancealBtn type="reset" onClick={onClickMoveToBack}>
+            <S.CancelBtn type="reset" onClick={onClickMoveToBack}>
               취소하기
-            </S.CancealBtn>
+            </S.CancelBtn>
           )}
-
           <S.SubmitBtn
             type="submit"
             disabled={

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   IBoardCommentWriteUIProps,
@@ -10,7 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
   writer: yup.string().required("작성자를 입력해주세요"),
-  password: yup.string().required("비밀번호를 입력해주세요"),
+  password: yup
+    .string()
+    .required("비밀번호를 입력해주세요")
+    .min(4, "비밀번호는 4자이상 입력해주세요"),
   contents: yup
     .string()
     .required("내용을 입력해주세요")
@@ -21,7 +24,7 @@ const schema = yup.object().shape({
 export default function BoardCommentWriteUI(
   props: IBoardCommentWriteUIProps,
 ): JSX.Element {
-  const { onSubmitComment } = props;
+  const { onSubmitComment, data } = props;
   const {
     handleSubmit,
     control,
@@ -30,7 +33,12 @@ export default function BoardCommentWriteUI(
     reset,
   } = useForm<IFormValue>({
     resolver: yupResolver(schema),
-    defaultValues: { writer: "", password: "", contents: "", rating: 0 },
+    defaultValues: {
+      writer: "",
+      password: "",
+      contents: "",
+      rating: 0,
+    },
   });
 
   const { contents } = watch();
@@ -38,6 +46,10 @@ export default function BoardCommentWriteUI(
   useEffect(() => {
     if (isSubmitSuccessful) reset();
   }, [reset, isSubmitSuccessful]);
+
+  // useEffect(() => {
+  //   reset(data?.fetchBoardComments);
+  // }, [data?.fetchBoardComments, reset]);
 
   return (
     <S.Wrapper>

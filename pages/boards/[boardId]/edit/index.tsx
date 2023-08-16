@@ -9,7 +9,6 @@ import {
 
 export default function Boards(): JSX.Element {
   const router = useRouter();
-  // if (!router || typeof router.query.boardId !== "string") return <></>;
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     router && FETCH_BOARD,
     {

@@ -107,15 +107,6 @@ export default function BoardListUI(props: IBoardListUIProps) {
           </S.BodyTable>
           <S.Footer>
             <Pagination refetch={refetch} boardsCount={boardsCount} />
-            {/* <S.Pagination>
-              <S.Icon
-                src="/assets/icons/navigate_before.png"
-                alt="이전 페이지"
-              />
-              <S.PageNum>1</S.PageNum>
-              <S.PageNum>2</S.PageNum>
-              <S.Icon src="/assets/icons/navigate_next.png" alt="이전 페이지" />
-            </S.Pagination> */}
             <S.NewBtn onClick={onClickMoveToNew}>
               <S.Icon src="/assets/icons/create.png"></S.Icon>게시물 등록하기
             </S.NewBtn>

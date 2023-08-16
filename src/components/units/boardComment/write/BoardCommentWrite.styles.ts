@@ -5,6 +5,7 @@ export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #fff;
 `;
 
 export const Header = styled.div`

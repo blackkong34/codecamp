@@ -4,25 +4,28 @@ import {
   CREATE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
 } from "./BoardCommentWrite.queries";
-import {
+import type {
   IMutation,
   IMutationCreateBoardCommentArgs,
-  ICreateBoardCommentInput,
 } from "../../../../commons/types/generated/types";
-import { IFormValue } from "./BoardCommentWrite.types";
+import type {
+  IFormValue,
+  IBoardCommentWriteProps,
+} from "./BoardCommentWrite.types";
 import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
 
-export default function BoardCommentWrite(): JSX.Element {
+export default function BoardCommentWrite(
+  props: IBoardCommentWriteProps,
+): JSX.Element {
   const router = useRouter();
+  const boardId =
+    typeof router.query.boardId === "string" ? router.query.boardId : "";
 
   //통신
   const [createBoardComment] = useMutation<
     Pick<IMutation, "createBoardComment">,
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
-
-  const boardId =
-    typeof router.query.boardId === "string" ? router.query.boardId : "";
 
   const onSubmitComment = async (formData: IFormValue) => {
     if (formData) {

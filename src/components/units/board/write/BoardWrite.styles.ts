@@ -151,7 +151,7 @@ export const BtnWrapper = styled.div`
   gap: 24px;
 `;
 
-export const CancealBtn = styled.button`
+export const CancelBtn = styled.button`
   padding: 14px 60px;
   background: #bdbdbd;
   color: #4f4f4f;

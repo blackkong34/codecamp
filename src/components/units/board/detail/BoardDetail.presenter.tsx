@@ -13,7 +13,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
     onClickLike,
     onClickDislike,
   } = props;
-  console.log(data);
+
   return (
     <S.BoardDetailWrapper>
       <S.CardWrapper>

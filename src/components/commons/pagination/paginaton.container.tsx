@@ -1,19 +1,7 @@
 import { useState } from "react";
 import { MouseEvent } from "react";
-import type {
-  IQuery,
-  IQueryFetchBoardsArgs,
-  IQueryFetchBoardsCountArgs,
-} from "../../../commons/types/generated/types";
-import type { ApolloQueryResult } from "@apollo/client";
 import PaginationUI from "./pagination.presenter";
-
-interface IPaginationProps {
-  refetch: (
-    variables?: Partial<IQueryFetchBoardsArgs> | undefined,
-  ) => Promise<ApolloQueryResult<Pick<IQuery, "fetchBoards">>>;
-  boardsCount: Pick<IQuery, "fetchBoardsCount"> | undefined;
-}
+import { IPaginationProps } from "./pagination.types";
 
 export default function Pagination(props: IPaginationProps) {
   const { refetch, boardsCount } = props;

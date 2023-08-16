@@ -1,5 +1,10 @@
 import { gql } from "@apollo/client";
 
+export const DELETE_BOARD_COMMENT = gql`
+  mutation deleteBoard($password: String, $boardCommentId: ID!) {
+    deleteBoardComment(password: $password, boardCommentId: $boardCommentId)
+  }
+`;
 export const FETCH_BOARD_COMMENTS = gql`
   query fetchBoardComments($boardId: ID!) {
     fetchBoardComments(boardId: $boardId) {
@@ -10,11 +15,5 @@ export const FETCH_BOARD_COMMENTS = gql`
       createdAt
       updatedAt
     }
-  }
-`;
-
-export const DELETE_BOARD_COMMENT = gql`
-  mutation deleteBoard($password: String, $boardCommentId: ID!) {
-    deleteBoardComment(password: $password, boardCommentId: $boardCommentId)
   }
 `;

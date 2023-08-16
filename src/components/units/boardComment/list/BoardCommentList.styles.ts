@@ -6,6 +6,7 @@ import { Button, Modal, Space } from "antd";
 export const ItemWrapper = styled.form`
   width: 1200px;
   margin-top: 40px;
+  background-color: #fff;
 `;
 export const Item = styled.div`
   list-style: none;
@@ -55,7 +56,7 @@ export const Icon = styled.img`
 `;
 export const Date = styled.span`
   color: #bdbdbd;
-  padding-top: 20px;
+  padding: 20px 0;
 `;
 
 export const PasswordModal = styled(Modal)``;
@@ -67,4 +68,17 @@ export const PasswordInput = styled.input`
   background: #bdbdbd;
   border-style: none;
   opacity: 0.5;
+`;
+
+export const BodyMiddle = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+`;
+
+export const BodyWrite = styled.div`
+  width: 1095px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #bdbdbd;
 `;
