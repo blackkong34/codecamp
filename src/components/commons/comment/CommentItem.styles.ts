@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
 import arrowRight from "/public/assets/icons/comment/arrow_right.svg";
-import { Button, Modal, Space } from "antd";
 
 export const ItemWrapper = styled.div`
   width: 1200px;
@@ -57,17 +56,6 @@ export const Icon = styled.img`
 export const Date = styled.span`
   color: #bdbdbd;
   padding: 20px 0;
-`;
-
-export const PasswordModal = styled(Modal)``;
-
-export const PasswordInput = styled.input`
-  width: 100%;
-  margin: 20px 0;
-  padding: 10px 16px;
-  background: #bdbdbd;
-  border-style: none;
-  opacity: 0.5;
 `;
 
 export const BodyMiddle = styled.div`

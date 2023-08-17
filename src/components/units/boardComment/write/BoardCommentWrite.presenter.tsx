@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import {
+import { useEffect } from "react";
+import type {
   IBoardCommentWriteUIProps,
   IFormValue,
 } from "./BoardCommentWrite.types";
-import * as S from "./BoardCommentWrite.styles";
-import * as yup from "yup";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import * as S from "./BoardCommentWrite.styles";
 
 const schema = yup.object().shape({
   writer: yup.string().required("작성자를 입력해주세요"),
@@ -24,7 +24,7 @@ const schema = yup.object().shape({
 export default function BoardCommentWriteUI(
   props: IBoardCommentWriteUIProps,
 ): JSX.Element {
-  const { onSubmitComment, onUpdateComment, comment, isEdit, onClickCancel } =
+  const { comment, isEdit, onSubmitComment, onUpdateComment, onClickCancel } =
     props;
   const {
     handleSubmit,
@@ -79,7 +79,7 @@ export default function BoardCommentWriteUI(
                   {...field}
                   type="password"
                   placeholder="비밀번호"
-                  autoComplete="none"
+                  autoComplete="new-password"
                 />
               )}
             />
@@ -108,12 +108,14 @@ export default function BoardCommentWriteUI(
           />
           <S.BtnWrapper>
             <S.Count>{contents?.length ?? 0}/100</S.Count>
-            <button type="button" onClick={onClickCancel}>
-              취소하기
-            </button>
-            <S.SubmitBtn type="submit">
-              {isEdit ? "수정하기" : "등록하기"}
-            </S.SubmitBtn>
+            <div>
+              {isEdit && (
+                <S.Btn type="button" onClick={onClickCancel}>
+                  취소하기
+                </S.Btn>
+              )}
+              <S.Btn type="submit">{isEdit ? "수정하기" : "등록하기"}</S.Btn>
+            </div>
           </S.BtnWrapper>
         </S.BodyMiddle>
         {errors?.contents && <S.Error>{errors.contents.message}</S.Error>}

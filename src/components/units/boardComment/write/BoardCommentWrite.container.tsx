@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
-  CREATE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
+  CREATE_BOARD_COMMENT,
   UPDATE_BOARD_COMMENT,
 } from "./BoardCommentWrite.queries";
 import type {
@@ -15,15 +16,12 @@ import type {
   IBoardCommentWriteProps,
 } from "./BoardCommentWrite.types";
 import BoardCommentWriteUI from "./BoardCommentWrite.presenter";
-import { Modal } from "antd";
-import { time } from "console";
-import { title } from "process";
 
 export default function BoardCommentWrite(
   props: IBoardCommentWriteProps,
 ): JSX.Element {
+  const { comment, isEdit, setIsEdit } = props;
   const router = useRouter();
-
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
 
@@ -32,6 +30,11 @@ export default function BoardCommentWrite(
     Pick<IMutation, "createBoardComment">,
     IMutationCreateBoardCommentArgs
   >(CREATE_BOARD_COMMENT);
+
+  const [updateBoardComment] = useMutation<
+    Pick<IMutation, "updateBoardComment">,
+    IMutationUpdateBoardCommentArgs
+  >(UPDATE_BOARD_COMMENT);
 
   const onSubmitComment = async (formData: IFormValue) => {
     if (formData) {
@@ -61,24 +64,20 @@ export default function BoardCommentWrite(
     }
   };
 
-  const [updateBoardComment] = useMutation<
-    Pick<IMutation, "updateBoardComment">,
-    IMutationUpdateBoardCommentArgs
-  >(UPDATE_BOARD_COMMENT);
-
   const onUpdateComment = async (formData: IFormValue) => {
+    const updateBoardCommentInput: Partial<IFormValue> = {};
+    if (formData?.contents)
+      updateBoardCommentInput.contents = formData.contents;
+    if (formData?.rating) updateBoardCommentInput.rating = formData.rating;
     const boardCommentId =
       typeof props?.comment?._id === "string" ? props.comment._id : "";
-    // if (!formData || boardCommentId) return;
+    if (!formData || !boardCommentId) return;
     try {
       await updateBoardComment({
         variables: {
           boardCommentId,
           password: formData.password,
-          updateBoardCommentInput: {
-            contents: formData.contents,
-            rating: formData.rating,
-          },
+          updateBoardCommentInput: updateBoardCommentInput,
         },
         refetchQueries: [
           {
@@ -89,21 +88,21 @@ export default function BoardCommentWrite(
           },
         ],
       });
-      props.setIsEdit(false);
-    } catch (e) {
-      console.log(e);
+      setIsEdit && setIsEdit(false);
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
     }
   };
 
   const onClickCancel = () => {
-    props.setIsEdit(false);
+    setIsEdit && setIsEdit(false);
   };
 
   return (
     <BoardCommentWriteUI
+      comment={comment}
+      isEdit={isEdit}
       onSubmitComment={onSubmitComment}
-      comment={props.comment}
-      isEdit={props.isEdit}
       onUpdateComment={onUpdateComment}
       onClickCancel={onClickCancel}
     />

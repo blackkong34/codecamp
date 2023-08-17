@@ -93,9 +93,10 @@ export const Count = styled.span`
   font-size: 16px;
 `;
 
-export const SubmitBtn = styled.button`
+export const Btn = styled.button`
   width: 97px;
   height: 100%;
+  margin-left: 8px;
   padding: 14px 16px;
   background: #000;
   border: none;

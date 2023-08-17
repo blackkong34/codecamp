@@ -1,19 +1,24 @@
-import { useQuery, useMutation } from "@apollo/client/react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
-import BoardCommentListUI from "./BoardCommentList.presenter";
+import { useQuery, useMutation } from "@apollo/client/react";
 import {
   DELETE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
 } from "./BoardCommentList.queries";
+import type { ChangeEvent } from "react";
 import type {
   IMutation,
   IQuery,
   IQueryFetchBoardCommentsArgs,
   IMutationDeleteBoardCommentArgs,
 } from "../../../../commons/types/generated/types";
+import { Modal } from "antd";
+import BoardCommentListUI from "./BoardCommentList.presenter";
 
 export default function BoardCommentList() {
+  const [password, setPassword] = useState("");
+  const [boardCommentId, setBoardCommentId] = useState("");
+
   const router = useRouter();
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
@@ -31,24 +36,11 @@ export default function BoardCommentList() {
     IMutationDeleteBoardCommentArgs
   >(DELETE_BOARD_COMMENT);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [password, setPassword] = useState("");
-  const [boardCommentId, setBoardCommentId] = useState("");
-
-  const onClickDelete = (e: MouseEvent<HTMLImageElement>) => {
-    setIsOpen(true);
-    setBoardCommentId(e.currentTarget.id);
-  };
-
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
-  const onClickDeleteComment = async () => {
+  const handleDelete = async () => {
     try {
       await deleteBoardComment({
         variables: {
@@ -58,28 +50,23 @@ export default function BoardCommentList() {
         refetchQueries: [
           {
             query: FETCH_BOARD_COMMENTS,
-            variables: { boardId: router.query.boardId },
+            variables: { boardId },
           },
         ],
       });
-      alert("댓글이 삭제되었습니다.");
+      Modal.info({ title: "댓글이 삭제되었습니다." });
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
-    setIsOpen(false);
   };
 
   return (
     <div>
       <BoardCommentListUI
         data={data}
-        //모달관련
-        isOpen={isOpen}
-        onClose={onClose}
-        onClickDelete={onClickDelete}
-        onClickDeleteComment={onClickDeleteComment}
+        setBoardCommentId={setBoardCommentId}
         onChangePassword={onChangePassword}
-        //수정
+        handleDelete={handleDelete}
       />
     </div>
   );

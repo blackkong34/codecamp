@@ -1,8 +1,4 @@
-import {
-  IQuery,
-  ICreateBoardCommentInput,
-  IBoardComment,
-} from "../../../../commons/types/generated/types";
+import { IBoardComment } from "../../../../commons/types/generated/types";
 
 export interface IFormValue {
   writer: string;
@@ -11,16 +7,16 @@ export interface IFormValue {
   rating: number;
 }
 
+export interface IBoardCommentWriteProps {
+  comment?: IBoardComment;
+  isEdit?: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export interface IBoardCommentWriteUIProps {
+  comment?: IBoardComment;
+  isEdit?: boolean;
   onSubmitComment: (FormData: IFormValue) => Promise<void>;
   onUpdateComment: (FormData: IFormValue) => Promise<void>;
   onClickCancel: () => void;
-  comment: IBoardComment;
-  isEdit: boolean;
-}
-export interface IBoardCommentWriteProps {
-  comment: IBoardComment;
-  isEdit: boolean;
-  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  // data: Pick<IQuery, "fetchBoardComments"> | undefined;
 }

@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   FETCH_BOARD,
   DELETE_BOARD,
   LIKE_BOARD,
   DISLIKE_BOARD,
 } from "./BoardDetail.queries";
-import {
+import type {
   IQuery,
   IQueryFetchBoardArgs,
   IMutation,
@@ -17,13 +17,12 @@ import {
 } from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
 import { Modal } from "antd";
-import { ok } from "assert";
 
 export default function BoardDetail() {
   const router = useRouter();
+
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
-
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {
@@ -48,7 +47,7 @@ export default function BoardDetail() {
   >(DELETE_BOARD);
 
   const onClickLike = async (): Promise<void> => {
-    const result = await likeBoard({
+    await likeBoard({
       variables: { boardId },
       refetchQueries: [
         {
@@ -61,7 +60,7 @@ export default function BoardDetail() {
     });
   };
   const onClickDislike = async (): Promise<void> => {
-    const result = await dislikeBoard({
+    await dislikeBoard({
       variables: { boardId },
       refetchQueries: [
         {
@@ -73,33 +72,39 @@ export default function BoardDetail() {
       ],
     });
   };
-  const onClickDeleteBoard = async (
-    e: FormEvent<HTMLElement>,
-  ): Promise<void> => {
+  //모달창 확인 버튼 클릭시 게시글이 삭제되도록 함수 분리
+  const onClickDeleteBoard = (e: FormEvent<HTMLElement>) => {
+    let boardId = e.currentTarget.id;
+
     Modal.confirm({
       content: "삭제하시겠습니까?",
       okText: "확인",
       cancelText: "취소",
-      onCancel: () => e.preventDefault(),
+      onCancel: () => router.back(),
+      onOk: () => {
+        handleDeleteBoard(boardId);
+      },
     });
-    const answer = confirm("삭제하시겠습니까?");
-    if (answer === false) {
-      e.preventDefault();
-      return;
-    }
-    if (answer && e.currentTarget.id) {
+  };
+  const handleDeleteBoard = async (boardId: string) => {
+    if (boardId) {
       try {
-        const res = await deleteBoard({
-          variables: { boardId: e.currentTarget.id },
+        await deleteBoard({
+          variables: { boardId },
         });
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        Modal.warn({
+          title: error,
+        });
       }
-      alert("삭제되었습니다.");
-      router.push("/boards");
+      Modal.info({
+        title: "삭제되었습니다.",
+        onOk: () => {
+          router.back();
+        },
+      });
     }
   };
-
   const onclickMoveToEdit = (): void => {
     router.push(`/boards/${router.query.boardId}/edit`);
   };
