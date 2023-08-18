@@ -13,7 +13,7 @@ export interface IPaginationProps {
 }
 
 export interface IPaginationUIProps {
-  RANGE: number;
+  limit: number;
   startPage: number;
   isActivePage: number;
   endPage: number;

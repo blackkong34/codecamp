@@ -5,11 +5,11 @@ import {
   DELETE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
 } from "./BoardCommentList.queries";
+import { FETCH_BOARDS } from "../../board/list/BoardList.queries";
 import type { ChangeEvent } from "react";
 import type {
   IMutation,
   IQuery,
-  IQueryFetchBoardCommentsArgs,
   IMutationDeleteBoardCommentArgs,
 } from "../../../../commons/types/generated/types";
 import { Modal } from "antd";
@@ -23,13 +23,13 @@ export default function BoardCommentList() {
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
 
-  const { data } = useQuery<
-    Pick<IQuery, "fetchBoardComments">,
-    IQueryFetchBoardCommentsArgs
-  >(FETCH_BOARD_COMMENTS, {
-    variables: { boardId },
-    skip: boardId === "",
-  });
+  const { data, fetchMore } = useQuery<Pick<IQuery, "fetchBoardComments">>(
+    FETCH_BOARD_COMMENTS,
+    {
+      variables: { boardId },
+      skip: boardId === "",
+    },
+  );
 
   const [deleteBoardComment] = useMutation<
     Pick<IMutation, "deleteBoardComment">,
@@ -38,6 +38,27 @@ export default function BoardCommentList() {
 
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const onLoadMore = () => {
+    if (!data) return;
+    void fetchMore({
+      variables: {
+        boardId,
+        page: Math.ceil((data?.fetchBoardComments.length ?? 10) / 10) + 1,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult.fetchBoardComments) {
+          return { fetchBoardComments: [...prev.fetchBoardComments] };
+        }
+        return {
+          fetchBoardComments: [
+            ...prev.fetchBoardComments,
+            ...fetchMoreResult.fetchBoardComments,
+          ],
+        };
+      },
+    });
   };
 
   const handleDelete = async () => {
@@ -58,6 +79,7 @@ export default function BoardCommentList() {
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
+    // setIsOpen(false);
   };
 
   return (
@@ -67,6 +89,7 @@ export default function BoardCommentList() {
         setBoardCommentId={setBoardCommentId}
         onChangePassword={onChangePassword}
         handleDelete={handleDelete}
+        onLoadMore={onLoadMore}
       />
     </div>
   );

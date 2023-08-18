@@ -1,10 +1,10 @@
 import { Address } from "react-daum-postcode";
 import { IQuery } from "../../../../commons/types/generated/types";
-import { FormEvent } from "react";
+import { MouseEvent } from "react";
 
 export interface IBoardDetailUIProps {
   data?: Pick<IQuery, "fetchBoard">;
-  onClickDeleteBoard: (e: FormEvent<HTMLElement>) => Promise<void>;
+  onClickDeleteBoard: (e: MouseEvent<HTMLButtonElement>) => void;
   onclickMoveToEdit: () => void;
   onClickMoveToList: () => void;
   onClickLike: () => Promise<void>;

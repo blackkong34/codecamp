@@ -6,4 +6,5 @@ export interface IBoardCommentListUIProps {
   setBoardCommentId: React.Dispatch<React.SetStateAction<string>>;
   onChangePassword: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDelete: () => Promise<void>;
+  onLoadMore: () => void;
 }

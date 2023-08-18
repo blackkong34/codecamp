@@ -19,9 +19,9 @@ export default function CommentItem(props: ICommentItemProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClickDelete = (e: MouseEvent<HTMLImageElement>) => {
-    setIsOpen(true);
+  const onClickDelete = (e: MouseEvent<HTMLButtonElement>) => {
     setBoardCommentId(e.currentTarget.id);
+    setIsOpen(true);
   };
 
   const onClickEdit = () => {
@@ -37,7 +37,7 @@ export default function CommentItem(props: ICommentItemProps) {
         onChangePassword={onChangePassword}
       />
       {!isEdit ? (
-        <S.Item key={comment._id}>
+        <S.Item>
           <S.FlexWrapper>
             <S.Avatar
               src={comment.user?.picture ?? "/assets/icons/profile.png"}
@@ -56,12 +56,16 @@ export default function CommentItem(props: ICommentItemProps) {
               </S.Date>
             </S.ItemMain>
             <S.IconsBox>
-              <S.Icon src="/assets/icons/pencil.png" onClick={onClickEdit} />
-              <S.Icon
+              <button onClick={onClickEdit}>
+                <S.EditIcon />
+              </button>
+              <button
                 id={comment._id}
                 onClick={onClickDelete}
-                src="/assets/icons/clear.png"
-              />
+                // src="/assets/icons/clear.png"
+              >
+                <S.DeleteIcon />
+              </button>
             </S.IconsBox>
           </S.FlexWrapper>
           {/* <BoardNestedComment /> */}

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
-import arrowRight from "/public/assets/icons/comment/arrow_right.svg";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 export const ItemWrapper = styled.div`
   width: 1200px;
@@ -46,8 +46,22 @@ export const Contents = styled.span`
 export const IconsBox = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 14px;
 `;
+
+export const EditIcon = styled(EditOutlined)`
+  font-size: 24px;
+  color: #dfdfdf;
+  cursor: pointer;
+`;
+
+export const DeleteIcon = styled(DeleteOutlined)`
+  font-size: 24px;
+  color: #dfdfdf;
+  cursor: pointer;
+`;
+
 export const Icon = styled.img`
   width: 24px;
   height: 24px;
@@ -69,4 +83,13 @@ export const BodyWrite = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #bdbdbd;
+`;
+
+export const PasswordInput = styled.input`
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px 16px;
+  background: #bdbdbd;
+  border-style: none;
+  opacity: 0.5;
 `;

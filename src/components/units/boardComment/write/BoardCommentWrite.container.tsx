@@ -88,14 +88,14 @@ export default function BoardCommentWrite(
           },
         ],
       });
-      setIsEdit && setIsEdit(false);
+      setIsEdit?.(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
   };
 
   const onClickCancel = () => {
-    setIsEdit && setIsEdit(false);
+    setIsEdit?.(false);
   };
 
   return (

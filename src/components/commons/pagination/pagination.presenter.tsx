@@ -9,7 +9,7 @@ import {
 
 export default function PaginationUI(props: IPaginationUIProps) {
   const {
-    RANGE,
+    limit,
     startPage,
     isActivePage,
     endPage,
@@ -27,7 +27,7 @@ export default function PaginationUI(props: IPaginationUIProps) {
       <span onClick={handlePrevPages}>
         <LeftOutlined />
       </span>
-      {[...Array(RANGE)].map(
+      {[...Array(limit)].map(
         (_, idx) =>
           startPage + idx <= endPage && (
             <S.PageNum

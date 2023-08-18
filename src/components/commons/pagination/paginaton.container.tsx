@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { MouseEvent } from "react";
 import PaginationUI from "./pagination.presenter";
 import { IPaginationProps } from "./pagination.types";
@@ -7,8 +8,7 @@ export default function Pagination(props: IPaginationProps) {
   const { refetch, boardsCount } = props;
   const [startPage, setStartPage] = useState(1);
   const [isActivePage, setIsActivePage] = useState(1);
-
-  const RANGE = 8;
+  const limit = 10;
   const endPage = Math.ceil((boardsCount?.fetchBoardsCount ?? 10) / 10);
 
   const handlePage = (e: MouseEvent<HTMLSpanElement>): void => {
@@ -18,15 +18,15 @@ export default function Pagination(props: IPaginationProps) {
 
   const handlePrevPages = (e: MouseEvent<HTMLSpanElement>): void => {
     if (startPage <= 1) return;
-    const prevPages = startPage - RANGE;
+    const prevPages = startPage - limit;
     setIsActivePage(prevPages);
     setStartPage(prevPages);
     refetch({ page: prevPages });
   };
 
   const handleNextPages = (e: MouseEvent<HTMLSpanElement>): void => {
-    if (startPage + RANGE > endPage) return;
-    const nextPages = startPage + RANGE;
+    if (startPage + limit > endPage) return;
+    const nextPages = startPage + limit;
     setIsActivePage(nextPages);
     setStartPage(nextPages);
     void refetch({ page: nextPages });
@@ -41,14 +41,14 @@ export default function Pagination(props: IPaginationProps) {
   const handleEndPage = () => {
     setIsActivePage(endPage);
     setStartPage(
-      endPage % RANGE ? endPage - (endPage % RANGE) + 1 : endPage - RANGE - 1,
+      endPage % limit ? endPage - (endPage % limit) + 1 : endPage - limit - 1,
     );
     void refetch({ page: endPage });
   };
 
   return (
     <PaginationUI
-      RANGE={RANGE}
+      limit={limit}
       startPage={startPage}
       isActivePage={isActivePage}
       endPage={endPage}

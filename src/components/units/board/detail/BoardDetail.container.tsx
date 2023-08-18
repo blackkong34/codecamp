@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
-import { FormEvent, useEffect, useState } from "react";
 import {
   FETCH_BOARD,
   DELETE_BOARD,
   LIKE_BOARD,
   DISLIKE_BOARD,
 } from "./BoardDetail.queries";
+import type { MouseEvent } from "react";
 import type {
   IQuery,
   IQueryFetchBoardArgs,
@@ -23,13 +23,13 @@ export default function BoardDetail() {
 
   const boardId =
     typeof router.query.boardId === "string" ? router.query.boardId : "";
-  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
-    FETCH_BOARD,
-    {
-      variables: { boardId },
-      skip: boardId === "",
-    },
-  );
+  const { data, refetch } = useQuery<
+    Pick<IQuery, "fetchBoard">,
+    IQueryFetchBoardArgs
+  >(FETCH_BOARD, {
+    variables: { boardId },
+    skip: boardId === "",
+  });
 
   const [likeBoard] = useMutation<
     Pick<IMutation, "likeBoard">,
@@ -73,7 +73,7 @@ export default function BoardDetail() {
     });
   };
   //모달창 확인 버튼 클릭시 게시글이 삭제되도록 함수 분리
-  const onClickDeleteBoard = (e: FormEvent<HTMLElement>) => {
+  const onClickDeleteBoard = (e: MouseEvent<HTMLButtonElement>) => {
     let boardId = e.currentTarget.id;
 
     Modal.confirm({
@@ -110,7 +110,7 @@ export default function BoardDetail() {
   };
 
   const onClickMoveToList = (): void => {
-    router.push("/boards");
+    router.back();
   };
 
   return (
