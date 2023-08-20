@@ -5,7 +5,6 @@ import {
   DELETE_BOARD_COMMENT,
   FETCH_BOARD_COMMENTS,
 } from "./BoardCommentList.queries";
-import { FETCH_BOARDS } from "../../board/list/BoardList.queries";
 import type { ChangeEvent } from "react";
 import type {
   IMutation,
@@ -79,7 +78,6 @@ export default function BoardCommentList() {
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
-    // setIsOpen(false);
   };
 
   return (

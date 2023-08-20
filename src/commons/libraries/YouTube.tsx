@@ -1,11 +1,19 @@
 import YouTube, { YouTubeProps } from "react-youtube";
-// import { IYoutube } from "../../components/units/board/detail/BoardDetail.presenter";
 
 export interface IYoutube {
-  videoId: { videoId: string };
+  url: string;
 }
 
-export default function Youtube(props: IYoutube["videoId"]) {
+export default function Youtube(props: IYoutube): JSX.Element {
+  const MATCH_URL_YOUTUBE =
+    /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//;
+
+  const videoId = props.url.match(MATCH_URL_YOUTUBE)?.[1];
+
+  // const videoId = props.url.match(MATCH_URL_YOUTUBE)![1];
+
+  console.log(videoId);
+
   const onPlayerReady: YouTubeProps["onReady"] = (e) => {
     e.target.pauseVideo();
   };
@@ -16,5 +24,6 @@ export default function Youtube(props: IYoutube["videoId"]) {
       autoplay: 0,
     },
   };
-  return <YouTube videoId={props.videoId} opts={opts} />;
+
+  return <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} />;
 }
