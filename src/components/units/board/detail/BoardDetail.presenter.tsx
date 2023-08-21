@@ -1,7 +1,7 @@
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 import { getDate } from "../../../../commons/libraries/utils";
 import { Tooltip } from "antd";
-import Youtube from "../../../../commons/libraries/YouTube";
+import Youtube from "../../../commons/YouTube";
 import * as S from "./BoardDetail.styles";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
@@ -13,7 +13,6 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
     onClickLike,
     onClickDislike,
   } = props;
-
   return (
     <S.BoardDetailWrapper>
       <S.CardWrapper>
@@ -47,18 +46,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
           <S.ImageBox></S.ImageBox>
           <S.Content>{data?.fetchBoard?.contents}</S.Content>
           <S.VideoBox>
-            {data?.fetchBoard.youtubeUrl ? (
-              <Youtube
-                // videoId={
-                //   data.fetchBoard.youtubeUrl.match(/[v=]/g)
-                //     ? data.fetchBoard.youtubeUrl.split("v=")[1].split("&")[0]
-                //     : data?.fetchBoard.youtubeUrl?.substring(17, 28)
-                // }
-                url={data.fetchBoard.youtubeUrl}
-              />
-            ) : (
-              ""
-            )}
+            <Youtube url={data?.fetchBoard.youtubeUrl ?? ""} />
           </S.VideoBox>
         </S.Body>
         <S.Bottom>

@@ -1,8 +1,8 @@
-import * as S from "./BoardWrite.styles";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { IBoardWriteUIProps } from "./BoardWrite.types";
-import { useEffect, useMemo, useState } from "react";
-import { ICreateBoardInput } from "../../../../commons/types/generated/types";
+import type { IBoardWriteUIProps } from "./BoardWrite.types";
+import type { ICreateBoardInput } from "../../../../commons/types/generated/types";
+import * as S from "./BoardWrite.styles";
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const {
     isEdit,
@@ -27,7 +27,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
     defaultValues: {
       title: data?.fetchBoard.title ?? "",
       contents: data?.fetchBoard.contents ?? "",
-      // youtubeUrl: data?.fetchBoard.youtubeUrl ?? "",
+      youtubeUrl: data?.fetchBoard.youtubeUrl ?? "",
       boardAddress: {
         address: address?.fullAddress,
         addressDetail: address?.extraAddress,
@@ -158,10 +158,17 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
         <S.InputWrapper>
           <S.Label>유튜브</S.Label>
           <S.Youtube
-            {...register("youtubeUrl")}
             type="text"
             placeholder="링크를 복사해주세요."
+            {...register("youtubeUrl", {
+              pattern: {
+                value:
+                  /(http:|https:)?(\/\/)?(www\.)?(youtube.com|youtu.be)\/(watch|embed)?(\?v=|\/)?(\S+)?/g,
+                message: "올바른 주소 형식이 아닙니다.",
+              },
+            })}
           />
+          <S.Error>{errors.youtubeUrl?.message}</S.Error>
         </S.InputWrapper>
         <S.InputWrapper>
           <S.Label>사진첨부</S.Label>

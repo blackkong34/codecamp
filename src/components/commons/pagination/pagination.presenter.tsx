@@ -22,10 +22,10 @@ export default function PaginationUI(props: IPaginationUIProps) {
   return (
     <S.Pagination>
       <span onClick={handleFirstPage}>
-        <DoubleLeftOutlined />
+        <DoubleLeftOutlined rev="icon" />
       </span>
       <span onClick={handlePrevPages}>
-        <LeftOutlined />
+        <LeftOutlined rev="icon" />
       </span>
       {[...Array(limit)].map(
         (_, idx) =>
@@ -40,10 +40,10 @@ export default function PaginationUI(props: IPaginationUIProps) {
           ),
       )}
       <span onClick={handleNextPages}>
-        <RightOutlined />
+        <RightOutlined rev="icon" />
       </span>
       <span onClick={handleEndPage}>
-        <DoubleRightOutlined />
+        <DoubleRightOutlined rev="icon" />
       </span>
     </S.Pagination>
   );

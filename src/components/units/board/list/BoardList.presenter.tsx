@@ -12,7 +12,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
     refetch,
     boardsCount,
   } = props;
-  console.log(boardsData);
+
   return (
     <S.Wrapper>
       <S.Header>
@@ -90,7 +90,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
             <tbody>
               {boardsData?.fetchBoards
                 .slice(0)
-                .reverse()
+                // .reverse()
                 .map((board) => (
                   <S.RowBody
                     key={board._id}
